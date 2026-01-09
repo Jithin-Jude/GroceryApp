@@ -51,6 +51,7 @@ import com.jithin.groceryapp.R
 import com.jithin.groceryapp.model.CategoryModel
 import com.jithin.groceryapp.model.DishModel
 import com.jithin.groceryapp.ui.components.AppDrawerView
+import com.jithin.groceryapp.ui.components.CategoryTabsView
 import com.jithin.groceryapp.ui.theme.AppBackground
 import com.jithin.groceryapp.ui.theme.DividerGrey
 import com.jithin.groceryapp.viewmodel.ProductViewModel
@@ -114,69 +115,17 @@ fun HomeScreenView(
                     .fillMaxSize()
             ) {
                 Box(
-                    Modifier
-                        .weight(1f)) {
-                    ProductListView(Modifier.fillMaxSize(), listOfProducts, onClickProduct = {
-                        navController.navigate(MainActivity.Routes.CartScreen.route)
-                    })
+                    Modifier.weight(1f)
+                ) {
+                    CategoryTabsView(
+                        modifier = Modifier.fillMaxSize(),
+                        categories = listOfProducts,
+                        onClickProduct = {
+                            navController.navigate(MainActivity.Routes.CartScreen.route)
+                        }
+                    )
                 }
-
             }
-        }
-    }
-}
-
-@Composable
-fun ProductListView(
-    modifier: Modifier,
-    listOfProducts: List<CategoryModel>,
-    onClickProduct: (product: DishModel) -> Unit
-) {
-    LazyColumn(modifier) {
-        items(listOfProducts) { product ->
-            ProductListItemView(product.dishes.first(), onClickProduct)
-            Spacer(modifier = Modifier
-                .fillMaxWidth()
-                .height(0.5.dp)
-                .background(DividerGrey))
-        }
-    }
-}
-
-@Composable
-fun ProductListItemView(product: DishModel, onClickProduct: (product: DishModel) -> Unit) {
-    val context = LocalContext.current
-
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() } // This is mandatory
-            ) {
-                onClickProduct(product)
-            }) {
-        AsyncImage(
-            modifier = Modifier.size(100.dp),
-            model = product.imageUrl.networkImageLoaderWithCache(context = context, R.drawable.ic_placeholed_shopping_bag),
-            contentDescription = null,
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Column {
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = product.name,
-                style = Typography.bodyLarge,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Spacer(modifier = Modifier.height(2.dp))
-            Text(
-                text = product.price.toString(),
-                style = Typography.titleLarge
-            )
-            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
