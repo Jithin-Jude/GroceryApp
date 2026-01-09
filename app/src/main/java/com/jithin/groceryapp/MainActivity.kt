@@ -22,6 +22,7 @@ import com.jithin.groceryapp.ui.components.EmptyScreenView
 import com.jithin.groceryapp.ui.components.LoadingView
 import com.jithin.groceryapp.ui.feature.CartScreenView
 import com.jithin.groceryapp.ui.feature.HomeScreenView
+import com.jithin.groceryapp.ui.feature.LoginScreenView
 import com.jithin.groceryapp.ui.theme.GroceryAppTheme
 import com.jithin.groceryapp.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,7 +71,12 @@ class MainActivity : ComponentActivity() {
         viewModel: ProductViewModel,
         listOfProducts: List<CategoryModel>,
     ) {
-        NavHost(navController, startDestination = Routes.HomeScreen.route) {
+        NavHost(navController, startDestination = Routes.LoginScreen.route) {
+            composable(Routes.LoginScreen.route) {
+                LoginScreenView(
+                    navController,
+                )
+            }
             composable(Routes.HomeScreen.route) {
                 HomeScreenView(
                     navController,
@@ -92,6 +98,7 @@ class MainActivity : ComponentActivity() {
     }
 
     sealed class Routes(val route: String) {
+        object LoginScreen : Routes("loginScreen")
         object HomeScreen : Routes("homeScreen")
         object CartScreen : Routes("cartScreen")
     }
