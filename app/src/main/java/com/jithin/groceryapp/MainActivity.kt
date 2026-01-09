@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.jithin.groceryapp.model.CategoryModel
 import com.jithin.groceryapp.ui.components.EmptyScreenView
 import com.jithin.groceryapp.ui.components.LoadingView
+import com.jithin.groceryapp.ui.feature.AskPhoneNumberScreenView
 import com.jithin.groceryapp.ui.feature.CartScreenView
 import com.jithin.groceryapp.ui.feature.HomeScreenView
 import com.jithin.groceryapp.ui.feature.LoginScreenView
@@ -92,6 +93,12 @@ class MainActivity : ComponentActivity() {
                     authViewModel,
                 )
             }
+            composable(Routes.AskPhoneNumberScreen.route) {
+                AskPhoneNumberScreenView(
+                    navController,
+                    authViewModel,
+                )
+            }
             composable(Routes.HomeScreen.route) {
                 HomeScreenView(
                     navController,
@@ -115,6 +122,8 @@ class MainActivity : ComponentActivity() {
 
     sealed class Routes(val route: String) {
         object LoginScreen : Routes("loginScreen")
+
+        object AskPhoneNumberScreen : Routes("askPhoneNumberScreen")
         object HomeScreen : Routes("homeScreen")
         object CartScreen : Routes("cartScreen")
     }

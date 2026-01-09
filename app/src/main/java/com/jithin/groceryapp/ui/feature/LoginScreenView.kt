@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.R
 import com.jithin.groceryapp.ui.components.RoundedCornerButton
 import com.jithin.groceryapp.ui.theme.AppBackground
@@ -92,7 +93,9 @@ fun LoginScreenView(
                         text = "Phone",
                         iconRes = R.drawable.ic_phone,
                         backgroundColor = Color.Green,
-                        onClick = {}
+                        onClick = {
+                            navController.navigate(MainActivity.Routes.AskPhoneNumberScreen.route)
+                        }
                     )
                 }
             }
