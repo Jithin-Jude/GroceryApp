@@ -26,14 +26,22 @@ class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private val _loginSuccess = MutableLiveData<Boolean>()
-    val loginSuccess: LiveData<Boolean> get() = _loginSuccess
+    private val _isLoggedIn = MutableLiveData<Boolean>()
+    val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
+
+    init {
+        checkLoginStatus()
+    }
+
+    fun checkLoginStatus() {
+        _isLoggedIn.value = authRepository.getLoggedInUserId() != null
+    }
 
     fun loginWithGoogle(activity: Activity) {
         viewModelScope.launch {
             authRepository.signInWithGoogle(activity).collect { result ->
                 if (result is DataState.Success) {
-                    _loginSuccess.postValue(true)
+                    _isLoggedIn.postValue(true)
                 }
             }
         }

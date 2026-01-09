@@ -16,4 +16,5 @@ import kotlinx.coroutines.flow.Flow
 interface AuthRepository {
     suspend fun signInWithGoogle(activity: Activity): Flow<DataState<Unit>>
     suspend fun signOut(): Flow<DataState<Unit>>
+    fun getLoggedInUserId(): String?
 }

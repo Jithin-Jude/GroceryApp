@@ -93,4 +93,8 @@ class AuthRepositoryImpl @Inject constructor(
             emit(DataState.Error(e))
         }
     }
+
+    override fun getLoggedInUserId(): String? {
+        return firebaseAuth.currentUser?.uid
+    }
 }

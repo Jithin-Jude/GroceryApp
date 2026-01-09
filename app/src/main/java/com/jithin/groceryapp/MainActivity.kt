@@ -6,6 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,32 +32,47 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {}
-        observeData()
-    }
-
-    private fun observeData() {
-        productViewModel.listOfProducts.observe(this) { data ->
-            setContent {
-                val navController = rememberNavController()
-                GroceryAppTheme {
-                    if (data.isNullOrEmpty()) {
-                        EmptyScreenView(productViewModel)
-                    } else {
-                        DashboardView(
-                            navController,
-                            productViewModel,
-                            data,
-                        )
-                    }
-                }
+        setContent {
+            GroceryAppTheme {
+                AppRoot(
+                    productViewModel = productViewModel,
+                    authViewModel = authViewModel
+                )
             }
         }
-        productViewModel.loader.observe(this) {
-            if (it) {
-                setContent {
-                    LoadingView()
-                }
+    }
+
+    @Composable
+    fun AppRoot(
+        productViewModel: ProductViewModel,
+        authViewModel: AuthViewModel
+    ) {
+        val navController = rememberNavController()
+
+        val isLoggedIn by authViewModel.isLoggedIn.observeAsState()
+        val products by productViewModel.listOfProducts.observeAsState()
+        val loading by productViewModel.loader.observeAsState(false)
+
+        when {
+            loading -> {
+                LoadingView()
+            }
+
+            products.isNullOrEmpty() -> {
+                EmptyScreenView(productViewModel)
+            }
+
+            isLoggedIn != null -> {
+                DashboardView(
+                    navController = navController,
+                    productViewModel = productViewModel,
+                    authViewModel = authViewModel,
+                    listOfProducts = products!!,
+                    startDestination = if (isLoggedIn == true)
+                        Routes.HomeScreen.route
+                    else
+                        Routes.LoginScreen.route
+                )
             }
         }
     }
@@ -63,10 +80,12 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun DashboardView(
         navController: NavHostController,
-        viewModel: ProductViewModel,
+        startDestination: String,
+        productViewModel: ProductViewModel,
+        authViewModel: AuthViewModel,
         listOfProducts: List<CategoryModel>,
     ) {
-        NavHost(navController, startDestination = Routes.LoginScreen.route) {
+        NavHost(navController, startDestination = startDestination) {
             composable(Routes.LoginScreen.route) {
                 LoginScreenView(
                     navController,
@@ -76,7 +95,7 @@ class MainActivity : ComponentActivity() {
             composable(Routes.HomeScreen.route) {
                 HomeScreenView(
                     navController,
-                    viewModel,
+                    productViewModel,
                     listOfProducts,
                 )
             }
