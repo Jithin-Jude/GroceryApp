@@ -50,6 +50,7 @@ class AuthViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch(Dispatchers.IO) {
             authRepository.signOut().collect()
+            _isLoggedIn.postValue(false)
         }
     }
 }

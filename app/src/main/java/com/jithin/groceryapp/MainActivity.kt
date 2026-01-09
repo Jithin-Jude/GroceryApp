@@ -96,6 +96,7 @@ class MainActivity : ComponentActivity() {
                 HomeScreenView(
                     navController,
                     productViewModel,
+                    authViewModel,
                     listOfProducts,
                 )
             }
