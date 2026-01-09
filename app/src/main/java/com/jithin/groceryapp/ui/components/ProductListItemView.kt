@@ -14,7 +14,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,6 +46,7 @@ import com.jithin.groceryapp.ui.theme.Typography
 fun ProductListItemView(product: DishModel, onClickProduct: (product: DishModel) -> Unit) {
     val context = LocalContext.current
     val vegIcon = if (product.isVeg) R.drawable.ic_veg else R.drawable.ic_non_veg
+    var count by remember { mutableStateOf(1) }
 
     Row(
         Modifier
@@ -92,6 +96,13 @@ fun ProductListItemView(product: DishModel, onClickProduct: (product: DishModel)
             Text(product.description,
                 color = Color.Gray,
                 style = Typography.bodyMedium,
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+            AddToCartButton(
+                count = count,
+                onIncrement = { count++ },
+                onDecrement = { if (count > 0) count-- }
             )
 
             if(product.customizationsAvailable){
