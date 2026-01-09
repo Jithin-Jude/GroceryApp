@@ -11,6 +11,7 @@ package com.jithin.groceryapp.viewmodel
  */
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -35,10 +36,19 @@ class ProductViewModel @Inject constructor(
     val loader: LiveData<Boolean>
         get() = _loader
 
-
     private val _listOfProducts = MutableLiveData<List<CategoryModel>>()
     val listOfProducts: LiveData<List<CategoryModel>>
         get() = _listOfProducts
+
+    private val _totalCartCount = MediatorLiveData<Int>().apply {
+        addSource(_listOfProducts) { categories ->
+            value = categories.sumOf { category ->
+                category.dishes.sumOf { it.selectedCount }
+            }
+        }
+    }
+
+    val totalCartCount: LiveData<Int> = _totalCartCount
 
     init {
         fetchAllProductsAndCategories()

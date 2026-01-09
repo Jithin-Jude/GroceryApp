@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
@@ -37,12 +38,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.jithin.groceryapp.GroceryAppUtils.networkImageLoaderWithCache
@@ -67,6 +74,7 @@ fun HomeScreenView(
     authViewModel: AuthViewModel,
     listOfProducts: List<CategoryModel>,
 ) {
+    val cartCount by productViewModel.totalCartCount.observeAsState(0)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
@@ -102,6 +110,36 @@ fun HomeScreenView(
                                 imageVector = Icons.Default.Menu,
                                 contentDescription = "Menu"
                             )
+                        }
+                    },
+                    actions = {
+                        Box {
+                            IconButton(
+                                onClick = {
+                                    navController.navigate(
+                                        MainActivity.Routes.CartScreen.route
+                                    )
+                                }
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_cart),
+                                    contentDescription = "Cart"
+                                )
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .size(18.dp)
+                                    .align(Alignment.TopEnd)
+                                    .background(Color.Red, CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = cartCount.toString(),
+                                    color = Color.White,
+                                    fontSize = 12.sp,
+                                    lineHeight = 12.sp
+                                )
+                            }
                         }
                     }
                 )
