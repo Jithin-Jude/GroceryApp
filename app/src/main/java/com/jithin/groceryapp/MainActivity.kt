@@ -5,25 +5,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jithin.groceryapp.model.CategoryModel
-import com.jithin.groceryapp.model.ProductModel
 import com.jithin.groceryapp.ui.components.EmptyScreenView
 import com.jithin.groceryapp.ui.components.LoadingView
 import com.jithin.groceryapp.ui.feature.CartScreenView
 import com.jithin.groceryapp.ui.feature.HomeScreenView
 import com.jithin.groceryapp.ui.feature.LoginScreenView
 import com.jithin.groceryapp.ui.theme.GroceryAppTheme
+import com.jithin.groceryapp.viewmodel.AuthViewModel
 import com.jithin.groceryapp.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
@@ -31,7 +25,8 @@ import kotlin.getValue
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: ProductViewModel by viewModels()
+    private val productViewModel: ProductViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -40,23 +35,23 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun observeData() {
-        viewModel.listOfProducts.observe(this) { data ->
+        productViewModel.listOfProducts.observe(this) { data ->
             setContent {
                 val navController = rememberNavController()
                 GroceryAppTheme {
                     if (data.isNullOrEmpty()) {
-                        EmptyScreenView(viewModel)
+                        EmptyScreenView(productViewModel)
                     } else {
                         DashboardView(
                             navController,
-                            viewModel,
+                            productViewModel,
                             data,
                         )
                     }
                 }
             }
         }
-        viewModel.loader.observe(this) {
+        productViewModel.loader.observe(this) {
             if (it) {
                 setContent {
                     LoadingView()
@@ -75,6 +70,7 @@ class MainActivity : ComponentActivity() {
             composable(Routes.LoginScreen.route) {
                 LoginScreenView(
                     navController,
+                    authViewModel,
                 )
             }
             composable(Routes.HomeScreen.route) {

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "131058860858",
+    "project_id": "jithin-grocery-app",
+    "storage_bucket": "jithin-grocery-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131058860858:android:4087190057f6c97df10603",
+        "android_client_info": {
+          "package_name": "com.jithin.groceryapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131058860858-49c76o895ksdtkggbv71m6sns5ucbqf5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jithin.groceryapp",
+            "certificate_hash": "34cd69003eb48f82c95a39651e0b270a2d794660"
+          }
+        },
+        {
+          "client_id": "131058860858-gblkp0ogurqgee9hud2fbknuga4f0v7o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFb84-xdS-gXG3kRqpxUMV22zM11P77XA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "131058860858-gblkp0ogurqgee9hud2fbknuga4f0v7o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

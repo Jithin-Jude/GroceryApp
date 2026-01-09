@@ -1,5 +1,6 @@
 package com.jithin.groceryapp.ui.feature
 
+import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,12 +15,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jithin.groceryapp.R
 import com.jithin.groceryapp.ui.components.RoundedCornerButton
 import com.jithin.groceryapp.ui.theme.AppBackground
+import com.jithin.groceryapp.viewmodel.AuthViewModel
 
 
 /*
@@ -34,9 +37,11 @@ import com.jithin.groceryapp.ui.theme.AppBackground
 @Composable
 fun LoginScreenView(
     navController: NavHostController,
-    onGoogleLoginClick: () -> Unit = {},
-    onPhoneLoginClick: () -> Unit = {}
+    authViewModel: AuthViewModel,
 ) {
+    val context = LocalContext.current
+    val activity = context as Activity
+
     Scaffold { paddingValues ->
         Box(
             modifier = Modifier
@@ -76,7 +81,9 @@ fun LoginScreenView(
                         text = "Google",
                         iconRes = R.drawable.ic_google,
                         backgroundColor = Color.Blue,
-                        onClick = onGoogleLoginClick
+                        onClick = {
+                            authViewModel.loginWithGoogle(activity)
+                        }
                     )
 
 
@@ -85,7 +92,7 @@ fun LoginScreenView(
                         text = "Phone",
                         iconRes = R.drawable.ic_phone,
                         backgroundColor = Color.Green,
-                        onClick = onPhoneLoginClick
+                        onClick = {}
                     )
                 }
             }
