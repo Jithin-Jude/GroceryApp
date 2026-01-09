@@ -19,6 +19,7 @@ import com.jithin.groceryapp.ui.feature.AskPhoneNumberScreenView
 import com.jithin.groceryapp.ui.feature.CartScreenView
 import com.jithin.groceryapp.ui.feature.HomeScreenView
 import com.jithin.groceryapp.ui.feature.LoginScreenView
+import com.jithin.groceryapp.ui.feature.VerifyOTPScreen
 import com.jithin.groceryapp.ui.theme.GroceryAppTheme
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 import com.jithin.groceryapp.viewmodel.ProductViewModel
@@ -99,6 +100,12 @@ class MainActivity : ComponentActivity() {
                     authViewModel,
                 )
             }
+            composable(Routes.VerifyOtpScreen.route) {
+                VerifyOTPScreen(
+                    navController,
+                    authViewModel,
+                )
+            }
             composable(Routes.HomeScreen.route) {
                 HomeScreenView(
                     navController,
@@ -124,6 +131,8 @@ class MainActivity : ComponentActivity() {
         object LoginScreen : Routes("loginScreen")
 
         object AskPhoneNumberScreen : Routes("askPhoneNumberScreen")
+
+        object VerifyOtpScreen : Routes("verifyOtpScreen")
         object HomeScreen : Routes("homeScreen")
         object CartScreen : Routes("cartScreen")
     }

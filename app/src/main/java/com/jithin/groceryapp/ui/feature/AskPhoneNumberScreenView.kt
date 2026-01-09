@@ -10,6 +10,7 @@ package com.jithin.groceryapp.ui.feature
  * --------------------------------------------------------------------------
  */
 
+import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,11 +34,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.arpitkatiyarprojects.countrypicker.CountryPickerOutlinedTextField
 import com.arpitkatiyarprojects.countrypicker.models.CountryDetails
+import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 
 @Composable
@@ -47,6 +50,9 @@ fun AskPhoneNumberScreenView(
 ) {
     var phoneNumber by remember { mutableStateOf("") }
     var selectedCountry by remember { mutableStateOf<CountryDetails?>(null) }
+
+    val context = LocalContext.current
+    val activity = context as Activity
 
     Scaffold(
         containerColor = Color.White
@@ -85,7 +91,8 @@ fun AskPhoneNumberScreenView(
                 enabled = phoneNumber.isNotBlank() && selectedCountry != null,
                 onClick = {
                     val fullPhone = "${selectedCountry?.countryPhoneNumberCode ?: ""}$phoneNumber"
-//                    authViewModel.requestOtp(fullPhone)
+                    authViewModel.requestOTP(activity, fullPhone)
+                    navController.navigate(MainActivity.Routes.VerifyOtpScreen.route)
                 }
             ) {
                 Text("Request OTP")

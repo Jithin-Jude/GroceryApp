@@ -29,6 +29,15 @@ class AuthViewModel @Inject constructor(
     private val _isLoggedIn = MutableLiveData<Boolean>()
     val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
 
+    private val _otpLoading = MutableLiveData<Boolean>()
+    val otpLoading: LiveData<Boolean> get() = _otpLoading
+
+    private val _otpError = MutableLiveData<String?>()
+    val otpError: LiveData<String?> get() = _otpError
+
+    private val _verificationId = MutableLiveData<String>()
+    val verificationId: LiveData<String> get() = _verificationId
+
     init {
         checkLoginStatus()
     }
@@ -44,6 +53,62 @@ class AuthViewModel @Inject constructor(
                     _isLoggedIn.postValue(true)
                 }
             }
+        }
+    }
+
+    fun requestOTP(activity: Activity, phoneNumber: String) {
+        viewModelScope.launch {
+            authRepository
+                .requestOTP(activity, phoneNumber)
+                .collect { result ->
+                    when (result) {
+                        is DataState.Loading -> {
+                            _otpLoading.postValue(true)
+                            _otpError.postValue(null)
+                        }
+
+                        is DataState.Success -> {
+                            _otpLoading.postValue(false)
+                            _verificationId.postValue(result.data)
+                        }
+
+                        is DataState.Error -> {
+                            _otpLoading.postValue(false)
+                            _otpError.postValue(
+                                result.exception.message ?: "OTP request failed"
+                            )
+                        }
+                    }
+                }
+        }
+    }
+
+    fun verifyOTP(otp: String) {
+        val verificationId = _verificationId.value ?: return
+
+        viewModelScope.launch {
+            authRepository
+                .verifyOTP(verificationId, otp)
+                .collect { result ->
+                    when (result) {
+                        is DataState.Loading -> {
+                            _otpLoading.postValue(true)
+                            _otpError.postValue(null)
+                        }
+
+                        is DataState.Success -> {
+                            _otpLoading.postValue(false)
+                            _isLoggedIn.postValue(true)
+                        }
+
+                        is DataState.Error -> {
+                            _otpLoading.postValue(false)
+                            _otpError.postValue(
+                                result.exception.message ?: "Invalid OTP"
+                            )
+                        }
+                    }
+                }
         }
     }
 
