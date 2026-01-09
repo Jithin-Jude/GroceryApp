@@ -30,7 +30,8 @@ import kotlinx.coroutines.launch
 fun CategoryTabsView(
     modifier: Modifier = Modifier,
     categories: List<CategoryModel>,
-    onClickProduct: (DishModel) -> Unit
+    onIncrement: (dish: DishModel) -> Unit,
+    onDecrement: (dish: DishModel) -> Unit,
 ) {
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -72,7 +73,8 @@ fun CategoryTabsView(
             ProductListView(
                 modifier = Modifier.fillMaxSize(),
                 listOfProducts = categories[pageIndex].dishes,
-                onClickProduct = onClickProduct
+                onIncrement = onIncrement,
+                onDecrement = onDecrement,
             )
         }
     }

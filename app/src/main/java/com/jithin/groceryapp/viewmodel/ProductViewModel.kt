@@ -18,7 +18,7 @@ import androidx.lifecycle.viewModelScope
 import com.jithin.groceryapp.GroceryAppUtils.printLog
 import com.jithin.groceryapp.domain.DataState
 import com.jithin.groceryapp.model.CategoryModel
-import com.jithin.groceryapp.model.ProductModel
+import com.jithin.groceryapp.model.DishModel
 import com.jithin.groceryapp.network.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -71,4 +71,30 @@ class ProductViewModel @Inject constructor(
             _loader.postValue(false)
         }
     }
+
+    fun incrementDishCount(dish: DishModel) {
+        updateSelectedDishCount(dish.id) { it + 1 }
+    }
+
+    fun decrementDishCount(dish: DishModel) {
+        updateSelectedDishCount(dish.id) { maxOf(0, it - 1) }
+    }
+
+    private fun updateSelectedDishCount(
+        dishId: Int,
+        update: (Int) -> Int
+    ) {
+        val updatedCategories = _listOfProducts.value?.map { category ->
+            category.copy(
+                dishes = category.dishes.map { dish ->
+                    if (dish.id == dishId) {
+                        dish.copy(selectedCount = update(dish.selectedCount))
+                    } else dish
+                }
+            )
+        } ?: emptyList()
+
+        _listOfProducts.postValue(updatedCategories)
+    }
+
 }

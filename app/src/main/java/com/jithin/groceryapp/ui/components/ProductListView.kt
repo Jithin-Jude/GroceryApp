@@ -25,11 +25,16 @@ import com.jithin.groceryapp.ui.theme.DividerGrey
 fun ProductListView(
     modifier: Modifier,
     listOfProducts: List<DishModel>,
-    onClickProduct: (DishModel) -> Unit
+    onIncrement: (dish: DishModel) -> Unit,
+    onDecrement: (dish: DishModel) -> Unit,
 ) {
     LazyColumn(modifier) {
         items(listOfProducts.size) { index ->
-            ProductListItemView(listOfProducts[index], onClickProduct)
+            ProductListItemView(
+                dish = listOfProducts[index],
+                onIncrement = onIncrement,
+                onDecrement = onDecrement,
+                )
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()

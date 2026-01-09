@@ -120,9 +120,13 @@ fun HomeScreenView(
                     CategoryTabsView(
                         modifier = Modifier.fillMaxSize(),
                         categories = listOfProducts,
-                        onClickProduct = {
-                            navController.navigate(MainActivity.Routes.CartScreen.route)
-                        }
+                        onIncrement = { dish ->
+                            productViewModel.incrementDishCount(dish)
+                        },
+                        onDecrement = { dish ->
+                            productViewModel.decrementDishCount(dish)
+                        },
+
                     )
                 }
             }

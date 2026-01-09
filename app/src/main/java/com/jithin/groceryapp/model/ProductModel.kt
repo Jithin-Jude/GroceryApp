@@ -20,7 +20,8 @@ data class DishModel(
     val imageUrl: String,
     val customizationsAvailable: Boolean,
     val isVeg: Boolean,
-    val addons: List<AddonModel>
+    val addons: List<AddonModel>,
+    val selectedCount: Int = 0,
 )
 
 data class AddonModel(

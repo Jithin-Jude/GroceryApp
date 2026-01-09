@@ -1,8 +1,5 @@
 package com.jithin.groceryapp.ui.components
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -43,21 +39,18 @@ import com.jithin.groceryapp.ui.theme.Typography
  */
 
 @Composable
-fun ProductListItemView(product: DishModel, onClickProduct: (product: DishModel) -> Unit) {
+fun ProductListItemView(dish: DishModel,
+                        onIncrement: (dish: DishModel) -> Unit,
+                        onDecrement: (dish: DishModel) -> Unit,
+                        ) {
     val context = LocalContext.current
-    val vegIcon = if (product.isVeg) R.drawable.ic_veg else R.drawable.ic_non_veg
-    var count by remember { mutableStateOf(1) }
+    val vegIcon = if (dish.isVeg) R.drawable.ic_veg else R.drawable.ic_non_veg
 
     Row(
         Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 24.dp)
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() } // This is mandatory
-            ) {
-                onClickProduct(product)
-            }) {
+    ) {
         Column {
             Spacer(modifier = Modifier.height(4.dp))
             Icon(
@@ -73,39 +66,43 @@ fun ProductListItemView(product: DishModel, onClickProduct: (product: DishModel)
                 .weight(1f)
                 .padding(horizontal = 8.dp)
         ) {
-            Text(product.name,
+            Text(dish.name,
                 style = Typography.titleLarge,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row() {
-                Text("${product.currency} ${product.price}",
+                Text("${dish.currency} ${dish.price}",
                     style = Typography.bodyLarge,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                Text("${product.calories} calories",
+                Text("${dish.calories} calories",
                     style = Typography.bodyLarge,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(product.description,
+            Text(dish.description,
                 color = Color.Gray,
                 style = Typography.bodyMedium,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
             AddToCartButton(
-                count = count,
-                onIncrement = { count++ },
-                onDecrement = { if (count > 0) count-- }
+                count = dish.selectedCount,
+                onIncrement = {
+                    onIncrement(dish)
+                              },
+                onDecrement = { if (dish.selectedCount > 0) {
+                    onDecrement(dish)
+                } }
             )
 
-            if(product.customizationsAvailable){
+            if(dish.customizationsAvailable){
                 Spacer(modifier = Modifier.height(16.dp))
                 Text("Customizations Available",
                     color = Color.Red,
@@ -117,7 +114,7 @@ fun ProductListItemView(product: DishModel, onClickProduct: (product: DishModel)
             modifier = Modifier
                 .width(80.dp)
                 .height(100.dp),
-            model = product.imageUrl.networkImageLoaderWithCache(
+            model = dish.imageUrl.networkImageLoaderWithCache(
                 context = context,
                 R.drawable.ic_placeholed_shopping_bag
             ),
