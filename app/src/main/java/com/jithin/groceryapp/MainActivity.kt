@@ -117,6 +117,7 @@ class MainActivity : ComponentActivity() {
             composable(Routes.CartScreen.route) { navBackStack ->
                 CartScreenView(
                     navController,
+                    productViewModel,
                 )
             }
         }
