@@ -24,8 +24,6 @@ import com.jithin.groceryapp.ui.theme.AppBackground
 @Composable
 fun CartScreenView(
     navController: NavHostController,
-    selectedProductId: String,
-    listOfProducts: List<CategoryModel>
 ) {
 
     Scaffold { paddingValues ->

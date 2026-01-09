@@ -114,15 +114,10 @@ class MainActivity : ComponentActivity() {
                     listOfProducts,
                 )
             }
-            composable(Routes.CartScreen.route + "/{product_id}") { navBackStack ->
-                val selectedProductId = navBackStack.arguments?.getString("product_id")
-                selectedProductId?.let { id ->
-                    CartScreenView(
-                        navController,
-                        id,
-                        listOfProducts
-                    )
-                }
+            composable(Routes.CartScreen.route) { navBackStack ->
+                CartScreenView(
+                    navController,
+                )
             }
         }
     }
