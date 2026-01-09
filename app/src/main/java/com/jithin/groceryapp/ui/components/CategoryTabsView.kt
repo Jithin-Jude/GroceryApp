@@ -20,6 +20,7 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.jithin.groceryapp.model.CategoryModel
 import com.jithin.groceryapp.model.DishModel
 import kotlinx.coroutines.launch
@@ -42,7 +43,8 @@ fun CategoryTabsView(
 
         // 🔹 Tabs
         PrimaryScrollableTabRow(
-            selectedTabIndex = pagerState.currentPage
+            selectedTabIndex = pagerState.currentPage,
+            edgePadding = 0.dp
         ) {
             categories.forEachIndexed { index, category ->
                 Tab(
