@@ -25,6 +25,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,9 +40,12 @@ import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.R
 import com.jithin.groceryapp.model.CartSummary
 import com.jithin.groceryapp.ui.components.CartItemView
+import com.jithin.groceryapp.ui.dialog.OrderSuccessDialog
 import com.jithin.groceryapp.ui.theme.AppBackground
 import com.jithin.groceryapp.viewmodel.ProductViewModel
 import com.jithin.groceryapp.ui.theme.Typography
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 /*
@@ -56,6 +63,9 @@ fun CartScreenView(
     navController: NavHostController,
     productViewModel: ProductViewModel,
 ) {
+    var showSuccessDialog by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
     val cartItems by productViewModel.cartItems.observeAsState(emptyList())
     val summary by productViewModel.cartSummary.observeAsState(
         CartSummary(0, 0, 0.0)
@@ -86,7 +96,21 @@ fun CartScreenView(
                     modifier = Modifier.fillMaxWidth(),
                     enabled = summary.totalItems > 0,
                     onClick = {
-                        // TODO: place order
+                        showSuccessDialog = true
+
+                        scope.launch {
+                            delay(3000)
+
+                            productViewModel.clearCart()
+
+                            showSuccessDialog = false
+
+                            navController.navigate(MainActivity.Routes.HomeScreen.route) {
+                                popUpTo(MainActivity.Routes.HomeScreen.route) {
+                                    inclusive = true
+                                }
+                            }
+                        }
                     }
                 ) {
                     Text("Place Order • ₹${summary.totalAmount}")
@@ -94,6 +118,10 @@ fun CartScreenView(
             }
         }
     ) { paddingValues ->
+        if (showSuccessDialog) {
+            OrderSuccessDialog()
+        }
+
         Column(
             Modifier
                 .padding(paddingValues)

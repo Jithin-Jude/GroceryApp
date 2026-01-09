@@ -131,4 +131,15 @@ class ProductViewModel @Inject constructor(
         _listOfProducts.postValue(updatedCategories)
     }
 
+    fun clearCart() {
+        val updatedCategories = _listOfProducts.value?.map { category ->
+            category.copy(
+                dishes = category.dishes.map { dish ->
+                    dish.copy(selectedCount = 0)
+                }
+            )
+        } ?: emptyList()
+        _listOfProducts.postValue(updatedCategories)
+    }
+
 }
