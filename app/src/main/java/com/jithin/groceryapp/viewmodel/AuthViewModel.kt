@@ -174,6 +174,7 @@ class AuthViewModel @Inject constructor(
     }
 
     fun logout() {
+        _authUiState.postValue(AuthUiState.LoggedOut)
         viewModelScope.launch(Dispatchers.IO) {
             authRepository.signOut().collect()
         }

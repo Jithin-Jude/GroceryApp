@@ -51,6 +51,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.jithin.groceryapp.GroceryAppUtils.networkImageLoaderWithCache
@@ -96,10 +97,12 @@ fun HomeScreenView(
                 onLogoutClick = {
                     authViewModel.logout()
                     navController.navigate(MainActivity.Routes.LoginScreen.route) {
-                        popUpTo(MainActivity.Routes.HomeScreen.route) {
+                        popUpTo(navController.graph.findStartDestination().id) {
                             inclusive = true
                         }
+                        launchSingleTop = true
                     }
+
                 }
             )
         }
