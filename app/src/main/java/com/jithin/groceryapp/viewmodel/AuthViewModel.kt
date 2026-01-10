@@ -93,6 +93,7 @@ class AuthViewModel @Inject constructor(
     }
 
     fun loginWithGoogle(activity: Activity) {
+        _authUiState.postValue(AuthUiState.Loading)
         viewModelScope.launch {
             authRepository.signInWithGoogle(activity).collect { result ->
                 if (result is DataState.Success) {
@@ -105,6 +106,8 @@ class AuthViewModel @Inject constructor(
                         )
                     }
                     checkAuthAndCustomerState()
+                } else if (result is DataState.Error) {
+                    _authUiState.postValue(AuthUiState.LoggedOut)
                 }
             }
         }
