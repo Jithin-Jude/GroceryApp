@@ -22,8 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.jithin.groceryapp.R
+import com.jithin.groceryapp.ui.theme.GAGreen
+import com.jithin.groceryapp.ui.theme.Typography
 
 @Composable
 fun AppDrawerView(
@@ -36,7 +40,6 @@ fun AppDrawerView(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(24.dp)
     ) {
 
         // PROFILE SECTION
@@ -44,48 +47,57 @@ fun AppDrawerView(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Spacer(modifier = Modifier.height(64.dp))
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .background(GAGreen),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Spacer(modifier = Modifier.height(64.dp))
 
-            AsyncImage(
-                model = profilePhotoUrl,
-                contentDescription = "Profile Picture",
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
+                AsyncImage(
+                    model = profilePhotoUrl,
+                    contentDescription = "Profile Picture",
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = userName,
+                    style = Typography.titleLarge,
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = "ID: $userId",
+                    style = Typography.bodyMedium,
+                )
 
-            Spacer(modifier = Modifier.height(12.dp))
-
-            Text(
-                text = userName,
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Text(
-                text = userId,
-                style = MaterialTheme.typography.bodySmall,
-                color = Color.Gray
-            )
-        }
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        HorizontalDivider()
+                Spacer(modifier = Modifier.height(32.dp))
+            }
+            }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // LOGOUT
-        NavigationDrawerItem(
-            label = { Text("Logout") },
-            selected = false,
-            onClick = onLogoutClick,
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = "Logout"
-                )
-            }
-        )
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp),
+        ) {
+            NavigationDrawerItem(
+                label = { Text("Log out",
+                    style = Typography.bodyMedium,
+                    ) },
+                selected = false,
+                onClick = onLogoutClick,
+                icon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_logout),
+                        contentDescription = "Log out",
+                        modifier = Modifier.size(32.dp)
+                    )
+                }
+            )
+        }
     }
 }
