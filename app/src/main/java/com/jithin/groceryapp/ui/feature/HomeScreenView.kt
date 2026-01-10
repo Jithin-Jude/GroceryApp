@@ -11,20 +11,11 @@ package com.jithin.groceryapp.ui.feature
  */
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -41,30 +32,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import coil.compose.AsyncImage
-import com.jithin.groceryapp.GroceryAppUtils.networkImageLoaderWithCache
 import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.R
 import com.jithin.groceryapp.model.CategoryModel
-import com.jithin.groceryapp.model.DishModel
 import com.jithin.groceryapp.ui.components.AppDrawerView
 import com.jithin.groceryapp.ui.components.CategoryTabsView
+import com.jithin.groceryapp.ui.components.LoadingView
 import com.jithin.groceryapp.ui.theme.AppBackground
-import com.jithin.groceryapp.ui.theme.DividerGrey
 import com.jithin.groceryapp.viewmodel.ProductViewModel
-import com.jithin.groceryapp.ui.theme.Typography
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 import com.jithin.groceryapp.viewmodel.CustomerDataViewModel
 import kotlinx.coroutines.launch
@@ -78,6 +62,7 @@ fun HomeScreenView(
     customerDataViewModel: CustomerDataViewModel,
     listOfProducts: List<CategoryModel>,
 ) {
+    val productsLoading by productViewModel.productsLoader.observeAsState(false)
     val customer by customerDataViewModel.customer.observeAsState()
     val cartCount by productViewModel.totalCartCount.observeAsState(0)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -166,17 +151,21 @@ fun HomeScreenView(
                 Box(
                     Modifier.weight(1f)
                 ) {
-                    CategoryTabsView(
-                        modifier = Modifier.fillMaxSize(),
-                        categories = listOfProducts,
-                        onIncrement = { dish ->
-                            productViewModel.incrementDishCount(dish)
-                        },
-                        onDecrement = { dish ->
-                            productViewModel.decrementDishCount(dish)
-                        },
+                    if(productsLoading){
+                        LoadingView()
+                    } else {
+                        CategoryTabsView(
+                            modifier = Modifier.fillMaxSize(),
+                            categories = listOfProducts,
+                            onIncrement = { dish ->
+                                productViewModel.incrementDishCount(dish)
+                            },
+                            onDecrement = { dish ->
+                                productViewModel.decrementDishCount(dish)
+                            },
 
-                    )
+                            )
+                    }
                 }
             }
         }

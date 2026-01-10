@@ -33,9 +33,9 @@ class ProductViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _loader = MutableLiveData<Boolean>()
-    val loader: LiveData<Boolean>
-        get() = _loader
+    private val _productsLoader = MutableLiveData<Boolean>()
+    val productsLoader: LiveData<Boolean>
+        get() = _productsLoader
 
     private val _listOfProducts = MutableLiveData<List<CategoryModel>>()
     val listOfProducts: LiveData<List<CategoryModel>>
@@ -81,7 +81,7 @@ class ProductViewModel @Inject constructor(
 
     fun fetchAllProductsAndCategories() {
         viewModelScope.launch(Dispatchers.IO) {
-            _loader.postValue(true)
+            _productsLoader.postValue(true)
             repository.getAllProducts().collect { result ->
                 when (result) {
                     is DataState.Loading -> {
@@ -103,7 +103,7 @@ class ProductViewModel @Inject constructor(
                     }
                 }
             }
-            _loader.postValue(false)
+            _productsLoader.postValue(false)
         }
     }
 

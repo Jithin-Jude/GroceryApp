@@ -60,10 +60,9 @@ class MainActivity : ComponentActivity() {
 
         val authState by authViewModel.authUiState.observeAsState(AuthUiState.Loading)
         val products by productViewModel.listOfProducts.observeAsState()
-        val loading by productViewModel.loader.observeAsState(false)
 
         when {
-            loading || authState is AuthUiState.Loading -> {
+            authState is AuthUiState.Loading -> {
                 LoadingView()
             }
 
