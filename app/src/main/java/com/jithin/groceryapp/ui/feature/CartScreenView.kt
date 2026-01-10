@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -62,7 +63,12 @@ import kotlinx.coroutines.launch
  */
 
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.ui.text.style.TextAlign
+import com.jithin.groceryapp.ui.theme.GADeepGreen
+import com.jithin.groceryapp.ui.theme.GAGreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,7 +81,7 @@ fun CartScreenView(
 
     val cartItems by productViewModel.cartItems.observeAsState(emptyList())
     val summary by productViewModel.cartSummary.observeAsState(
-        CartSummary(0, 0, 0.0)
+        CartSummary(0, 0, 0.0, currency = "")
     )
 
     Scaffold(
@@ -93,15 +99,20 @@ fun CartScreenView(
             )
         },
         bottomBar = {
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Color.White)
                     .padding(16.dp)
             ) {
                 Button(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(70.dp),
                     enabled = summary.totalItems > 0,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = GADeepGreen
+                    ),
                     onClick = {
                         showSuccessDialog = true
                         scope.launch {
@@ -116,8 +127,12 @@ fun CartScreenView(
                         }
                     }
                 ) {
-                    Text("Place Order • ₹${summary.totalAmount}")
+                    Text("Place Order",
+                        color = Color.White,
+                        style = Typography.titleLarge,
+                        )
                 }
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     ) { paddingValues ->
@@ -147,14 +162,20 @@ fun CartScreenView(
                 Column {
 
                     /* ---------- Summary Header ---------- */
-                    Column(modifier = Modifier.padding(16.dp)) {
+                    Column(modifier = Modifier
+                        .padding(8.dp)
+                        .background(GADeepGreen, shape = RoundedCornerShape(4.dp))
+                    ) {
                         Text(
                             text = "${summary.totalDishes} Dishes • ${summary.totalItems} Items",
-                            style = Typography.titleLarge
+                            style = Typography.titleLarge,
+                            textAlign = TextAlign.Center,
+                            color = Color.White,
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth()
                         )
                     }
-
-                    HorizontalDivider()
 
                     /* ---------- Cart Items ---------- */
                     cartItems.forEach { dish ->
@@ -169,14 +190,25 @@ fun CartScreenView(
                         )
                     }
 
-                    HorizontalDivider()
+                    if(cartItems.isNotEmpty()){
+                        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+                    }
 
                     /* ---------- Total ---------- */
-                    Text(
-                        modifier = Modifier.padding(16.dp),
-                        text = "Total: ₹${summary.totalAmount}",
-                        style = Typography.titleLarge
-                    )
+                    Row {
+                        Text(
+                            modifier = Modifier.padding(16.dp),
+                            text = "Total Amount",
+                            style = Typography.titleLarge
+                        )
+                        Spacer(Modifier.weight(1f))
+                        Text(
+                            modifier = Modifier.padding(16.dp),
+                            text = "${summary.currency} ${summary.totalAmount}",
+                            style = Typography.bodyLarge,
+                            color = GAGreen,
+                        )
+                    }
                 }
             }
 

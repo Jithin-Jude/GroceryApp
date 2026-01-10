@@ -68,7 +68,8 @@ class ProductViewModel @Inject constructor(
                 value = CartSummary(
                     totalDishes = dishes.size,
                     totalItems = dishes.sumOf { it.selectedCount },
-                    totalAmount = dishes.sumOf { it.price * it.selectedCount }
+                    totalAmount = dishes.sumOf { it.price * it.selectedCount },
+                    currency = dishes.firstOrNull()?.currency ?: ""
                 )
             }
         }

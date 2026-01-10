@@ -26,6 +26,7 @@ import coil.compose.AsyncImage
 import com.jithin.groceryapp.GroceryAppUtils.networkImageLoaderWithCache
 import com.jithin.groceryapp.R
 import com.jithin.groceryapp.model.DishModel
+import com.jithin.groceryapp.ui.theme.GAGreen
 import com.jithin.groceryapp.ui.theme.Typography
 
 
@@ -99,7 +100,8 @@ fun ProductListItemView(dish: DishModel,
                               },
                 onDecrement = { if (dish.selectedCount > 0) {
                     onDecrement(dish)
-                } }
+                } },
+                buttonColor = GAGreen,
             )
 
             if(dish.customizationsAvailable){

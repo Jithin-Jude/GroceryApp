@@ -38,13 +38,14 @@ fun AddToCartButton(
     onIncrement: () -> Unit,
     onDecrement: () -> Unit,
     modifier: Modifier = Modifier,
+    buttonColor: Color,
     enabled: Boolean = true
 ) {
     Row(
         modifier = modifier
             .height(36.dp)
             .background(
-                color = GAGreen,
+                color = buttonColor,
                 shape = RoundedCornerShape(30.dp)
             )
             .padding(horizontal = 4.dp),
