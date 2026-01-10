@@ -12,8 +12,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.jithin.groceryapp.model.CategoryModel
-import com.jithin.groceryapp.ui.components.EmptyScreenView
 import com.jithin.groceryapp.ui.components.LoadingView
 import com.jithin.groceryapp.ui.feature.AskNameScreenView
 import com.jithin.groceryapp.ui.feature.AskPhoneNumberScreenView
@@ -59,25 +57,21 @@ class MainActivity : ComponentActivity() {
         val navController = rememberNavController()
 
         val authState by authViewModel.authUiState.observeAsState(AuthUiState.Loading)
-        val products by productViewModel.listOfProducts.observeAsState()
 
         when {
             authState is AuthUiState.Loading -> {
                 LoadingView()
             }
 
-            products.isNullOrEmpty() -> {
-                EmptyScreenView(productViewModel)
-            }
-
             else -> {
                 val startDestination = when (authState) {
                     AuthUiState.LoggedOut -> Routes.LoginScreen.route
+                    is AuthUiState.AuthError -> Routes.LoginScreen.route
                     AuthUiState.OTPRequestError -> Routes.AskPhoneNumberScreen.route
                     AuthUiState.ShowVerifyOTPScreen -> Routes.VerifyOtpScreen.route
                     AuthUiState.NeedsName -> Routes.AskNameScreen.route
                     AuthUiState.NeedsProfilePicture -> Routes.AskProfilePictureScreen.route
-                    AuthUiState.Ready -> Routes.HomeScreen.route
+                    AuthUiState.OnboardingComplete -> Routes.HomeScreen.route
                     AuthUiState.Loading -> Routes.LoginScreen.route // fallback
                 }
 
@@ -87,7 +81,6 @@ class MainActivity : ComponentActivity() {
                     productViewModel = productViewModel,
                     authViewModel = authViewModel,
                     customerDataViewModel = customerDataViewModel,
-                    listOfProducts = products!!
                 )
             }
         }
@@ -100,7 +93,6 @@ class MainActivity : ComponentActivity() {
         productViewModel: ProductViewModel,
         authViewModel: AuthViewModel,
         customerDataViewModel: CustomerDataViewModel,
-        listOfProducts: List<CategoryModel>,
     ) {
         NavHost(navController, startDestination = startDestination) {
             composable(Routes.LoginScreen.route) {
@@ -139,7 +131,6 @@ class MainActivity : ComponentActivity() {
                     productViewModel = productViewModel,
                     authViewModel = authViewModel,
                     customerDataViewModel = customerDataViewModel,
-                    listOfProducts = listOfProducts,
                 )
             }
             composable(Routes.CartScreen.route) { navBackStack ->

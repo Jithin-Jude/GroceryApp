@@ -37,30 +37,16 @@ import com.jithin.groceryapp.viewmodel.ProductViewModel
 
 
 @Composable
-fun EmptyScreenView(viewModel: ProductViewModel) {
+fun EmptyScreenView() {
     Box(
         Modifier
             .fillMaxSize()
-            .background(AppBackground)
-            .clickable(
-                indication = null,
-                interactionSource = remember { MutableInteractionSource() } // This is mandatory
-            ) {
-//                viewModel.clearFiltersAndRefresh()
-            },
+            .background(AppBackground),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(
-                imageVector = Icons.Outlined.Refresh,
-                tint = DividerGrey,
-                contentDescription = "Refresh",
-                modifier = Modifier
-                    .size(48.dp)
-            )
-            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = stringResource(R.string.no_products_found_please_retry),
+                text = stringResource(R.string.no_dishes_found_please_retry),
                 textAlign = TextAlign.Center
             )
         }

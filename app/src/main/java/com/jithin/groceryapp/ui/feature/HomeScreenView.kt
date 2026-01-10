@@ -43,9 +43,9 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.R
-import com.jithin.groceryapp.model.CategoryModel
 import com.jithin.groceryapp.ui.components.AppDrawerView
 import com.jithin.groceryapp.ui.components.CategoryTabsView
+import com.jithin.groceryapp.ui.components.EmptyScreenView
 import com.jithin.groceryapp.ui.components.LoadingView
 import com.jithin.groceryapp.ui.theme.AppBackground
 import com.jithin.groceryapp.viewmodel.ProductViewModel
@@ -60,8 +60,8 @@ fun HomeScreenView(
     productViewModel: ProductViewModel,
     authViewModel: AuthViewModel,
     customerDataViewModel: CustomerDataViewModel,
-    listOfProducts: List<CategoryModel>,
 ) {
+    val listOfProducts by productViewModel.listOfProducts.observeAsState()
     val productsLoading by productViewModel.productsLoader.observeAsState(false)
     val customer by customerDataViewModel.customer.observeAsState()
     val cartCount by productViewModel.totalCartCount.observeAsState(0)
@@ -153,17 +153,18 @@ fun HomeScreenView(
                 ) {
                     if(productsLoading){
                         LoadingView()
+                    } else if(listOfProducts.isNullOrEmpty()){
+                        EmptyScreenView()
                     } else {
                         CategoryTabsView(
                             modifier = Modifier.fillMaxSize(),
-                            categories = listOfProducts,
+                            categories = listOfProducts!!,
                             onIncrement = { dish ->
                                 productViewModel.incrementDishCount(dish)
                             },
                             onDecrement = { dish ->
                                 productViewModel.decrementDishCount(dish)
                             },
-
                             )
                     }
                 }

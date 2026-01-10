@@ -75,7 +75,7 @@ class AuthViewModel @Inject constructor(
                                     _authUiState.postValue(AuthUiState.NeedsProfilePicture)
 
                                 else ->
-                                    _authUiState.postValue(AuthUiState.Ready)
+                                    _authUiState.postValue(AuthUiState.OnboardingComplete)
                             }
                         }
 
@@ -107,7 +107,7 @@ class AuthViewModel @Inject constructor(
                     }
                     checkAuthAndCustomerState()
                 } else if (result is DataState.Error) {
-                    _authUiState.postValue(AuthUiState.LoggedOut)
+                    _authUiState.postValue(AuthUiState.AuthError(message = result.exception.message.toString()))
                 }
             }
         }

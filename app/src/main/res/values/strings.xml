@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Grocery App</string>
-    <string name="no_products_found_please_retry">No products found!\nPlease retry</string>
+    <string name="no_dishes_found_please_retry">No dishes found!</string>
 </resources>
