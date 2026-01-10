@@ -29,6 +29,9 @@ class AuthViewModel @Inject constructor(
     private val customerDataRepository: CustomerDataRepository
 ) : ViewModel() {
 
+    private val _authUiState = MutableLiveData<AuthUiState>()
+    val authUiState: LiveData<AuthUiState> = _authUiState
+
     private val _isLoggedIn = MutableLiveData<Boolean>()
     val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
 
@@ -42,11 +45,41 @@ class AuthViewModel @Inject constructor(
     val verificationId: LiveData<String> get() = _verificationId
 
     init {
-        checkLoginStatus()
+        checkAuthAndCustomerState()
     }
 
-    fun checkLoginStatus() {
-        _isLoggedIn.value = authRepository.getLoggedInUser()?.uid != null
+    private fun checkAuthAndCustomerState() {
+        val uid = authRepository.getLoggedInUser()?.uid
+
+        if (uid == null) {
+            _authUiState.postValue(AuthUiState.LoggedOut)
+            return
+        }
+
+        viewModelScope.launch {
+            customerDataRepository
+                .getCustomerById(uid)
+                .collect { result ->
+                    when (result) {
+                        is DataState.Success -> {
+                            if (result.data.name.isNullOrBlank()) {
+                                _authUiState.postValue(AuthUiState.NeedsName)
+                            } else {
+                                _authUiState.postValue(AuthUiState.Ready)
+                            }
+                        }
+
+                        is DataState.Error -> {
+                            // Customer document missing → treat as incomplete
+                            _authUiState.postValue(AuthUiState.NeedsName)
+                        }
+
+                        is DataState.Loading -> {
+                            _authUiState.postValue(AuthUiState.Loading)
+                        }
+                    }
+                }
+        }
     }
 
     fun loginWithGoogle(activity: Activity) {
@@ -61,7 +94,7 @@ class AuthViewModel @Inject constructor(
                             email = it.email
                         )
                     }
-                    _isLoggedIn.postValue(true)
+                    checkAuthAndCustomerState()
                 }
             }
         }
@@ -116,7 +149,7 @@ class AuthViewModel @Inject constructor(
                                 )
                             }
                             _otpLoading.postValue(false)
-                            _isLoggedIn.postValue(true)
+                            checkAuthAndCustomerState()
                         }
 
                         is DataState.Error -> {
@@ -156,5 +189,24 @@ class AuthViewModel @Inject constructor(
                 .collect()
         }
     }
+    fun updateCustomerName(name: String) {
+        val uid = authRepository.getLoggedInUser()?.uid ?: return
+
+        viewModelScope.launch {
+            val customer = CustomerModel(
+                uid = uid,
+                name = name
+            )
+
+            customerDataRepository
+                .addOrUpdateCustomer(customer)
+                .collect { result ->
+                    if (result is DataState.Success) {
+                        _authUiState.postValue(AuthUiState.Ready)
+                    }
+                }
+        }
+    }
+
 
 }

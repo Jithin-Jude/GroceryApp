@@ -15,12 +15,14 @@ import androidx.navigation.compose.rememberNavController
 import com.jithin.groceryapp.model.CategoryModel
 import com.jithin.groceryapp.ui.components.EmptyScreenView
 import com.jithin.groceryapp.ui.components.LoadingView
+import com.jithin.groceryapp.ui.feature.AskNameScreenView
 import com.jithin.groceryapp.ui.feature.AskPhoneNumberScreenView
 import com.jithin.groceryapp.ui.feature.CartScreenView
 import com.jithin.groceryapp.ui.feature.HomeScreenView
 import com.jithin.groceryapp.ui.feature.LoginScreenView
 import com.jithin.groceryapp.ui.feature.VerifyOTPScreen
 import com.jithin.groceryapp.ui.theme.GroceryAppTheme
+import com.jithin.groceryapp.viewmodel.AuthUiState
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 import com.jithin.groceryapp.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,12 +53,12 @@ class MainActivity : ComponentActivity() {
     ) {
         val navController = rememberNavController()
 
-        val isLoggedIn by authViewModel.isLoggedIn.observeAsState()
+        val authState by authViewModel.authUiState.observeAsState(AuthUiState.Loading)
         val products by productViewModel.listOfProducts.observeAsState()
         val loading by productViewModel.loader.observeAsState(false)
 
         when {
-            loading -> {
+            loading || authState is AuthUiState.Loading -> {
                 LoadingView()
             }
 
@@ -64,16 +66,20 @@ class MainActivity : ComponentActivity() {
                 EmptyScreenView(productViewModel)
             }
 
-            isLoggedIn != null -> {
+            else -> {
+                val startDestination = when (authState) {
+                    AuthUiState.LoggedOut -> Routes.LoginScreen.route
+                    AuthUiState.NeedsName -> Routes.AskNameScreen.route
+                    AuthUiState.Ready -> Routes.HomeScreen.route
+                    AuthUiState.Loading -> Routes.LoginScreen.route // fallback
+                }
+
                 DashboardView(
                     navController = navController,
+                    startDestination = startDestination,
                     productViewModel = productViewModel,
                     authViewModel = authViewModel,
-                    listOfProducts = products!!,
-                    startDestination = if (isLoggedIn == true)
-                        Routes.HomeScreen.route
-                    else
-                        Routes.LoginScreen.route
+                    listOfProducts = products!!
                 )
             }
         }
@@ -106,6 +112,12 @@ class MainActivity : ComponentActivity() {
                     authViewModel,
                 )
             }
+            composable(Routes.AskNameScreen.route) {
+                AskNameScreenView(
+                    navController,
+                    authViewModel,
+                )
+            }
             composable(Routes.HomeScreen.route) {
                 HomeScreenView(
                     navController,
@@ -125,10 +137,9 @@ class MainActivity : ComponentActivity() {
 
     sealed class Routes(val route: String) {
         object LoginScreen : Routes("loginScreen")
-
         object AskPhoneNumberScreen : Routes("askPhoneNumberScreen")
-
         object VerifyOtpScreen : Routes("verifyOtpScreen")
+        object AskNameScreen : Routes("askNameScreen")
         object HomeScreen : Routes("homeScreen")
         object CartScreen : Routes("cartScreen")
     }
