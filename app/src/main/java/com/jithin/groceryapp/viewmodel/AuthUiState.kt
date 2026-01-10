@@ -13,7 +13,7 @@ package com.jithin.groceryapp.viewmodel
 sealed class AuthUiState {
     object Loading : AuthUiState()
     object LoggedOut : AuthUiState()
-    class AuthError(message: String) : AuthUiState()
+    data class AuthError(val message: String) : AuthUiState()
     object OTPRequestError : AuthUiState()
     object ShowVerifyOTPScreen : AuthUiState()
     object NeedsName : AuthUiState()

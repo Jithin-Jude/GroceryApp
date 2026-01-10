@@ -47,4 +47,11 @@ object GroceryAppUtils {
         return df.format(this)
     }
 
+    fun String.capitalizeFirstLetter(): String {
+        if (this.isBlank()) return this
+        return this.replaceFirstChar { char ->
+            if (char.isLowerCase()) char.titlecase() else char.toString()
+        }
+    }
+
 }
