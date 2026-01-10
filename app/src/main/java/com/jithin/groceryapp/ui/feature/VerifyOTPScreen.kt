@@ -31,9 +31,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.jithin.groceryapp.ui.theme.Typography
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 
 @Composable
@@ -41,8 +43,8 @@ fun VerifyOTPScreen(
     navController: NavHostController,
     authViewModel: AuthViewModel,
 ) {
-    val otpLoading by authViewModel.otpVerificationInProgress.observeAsState(false)
-    val otpError by authViewModel.otpError.observeAsState()
+    val otpVerificationInProgress by authViewModel.otpVerificationInProgress.observeAsState(false)
+    val otpVerificationError by authViewModel.otpVerificationError.observeAsState()
 
     var otp by remember { mutableStateOf("") }
 
@@ -78,7 +80,7 @@ fun VerifyOTPScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        otpError?.let {
+        otpVerificationError?.let {
             Text(
                 text = it,
                 color = MaterialTheme.colorScheme.error,
@@ -90,16 +92,19 @@ fun VerifyOTPScreen(
 
         Button(
             onClick = { authViewModel.verifyOTP(otp) },
-            enabled = otp.length == 6 && !otpLoading,
+            enabled = otp.length == 6 && !otpVerificationInProgress,
             modifier = Modifier.fillMaxWidth()
         ) {
-            if (otpLoading) {
+            if (otpVerificationInProgress) {
                 CircularProgressIndicator(
                     strokeWidth = 2.dp,
                     modifier = Modifier.size(20.dp)
                 )
             } else {
-                Text("Verify")
+                Text("Verify",
+                    color = Color.White,
+                    style = Typography.titleLarge,
+                    )
             }
         }
     }

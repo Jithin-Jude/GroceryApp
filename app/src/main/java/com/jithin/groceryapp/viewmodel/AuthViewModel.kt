@@ -39,8 +39,11 @@ class AuthViewModel @Inject constructor(
     private val _otpVerificationInProgress = MutableLiveData<Boolean>()
     val otpVerificationInProgress: LiveData<Boolean> get() = _otpVerificationInProgress
 
-    private val _otpError = MutableLiveData<String?>()
-    val otpError: LiveData<String?> get() = _otpError
+    private val _otpRequestError = MutableLiveData<String?>()
+    val otpRequestError: LiveData<String?> get() = _otpRequestError
+
+    private val _otpVerificationError = MutableLiveData<String?>()
+    val otpVerificationError: LiveData<String?> get() = _otpVerificationError
 
     private val _verificationId = MutableLiveData<String>()
     val verificationId: LiveData<String> get() = _verificationId
@@ -121,7 +124,7 @@ class AuthViewModel @Inject constructor(
                     when (result) {
                         is DataState.Loading -> {
                             _authUiState.postValue(AuthUiState.Loading)
-                            _otpError.postValue(null)
+                            _otpRequestError.postValue(null)
                         }
 
                         is DataState.Success -> {
@@ -131,7 +134,7 @@ class AuthViewModel @Inject constructor(
 
                         is DataState.Error -> {
                             _authUiState.postValue(AuthUiState.OTPRequestError)
-                            _otpError.postValue(
+                            _otpRequestError.postValue(
                                 result.exception.message ?: "OTP request failed"
                             )
                         }
@@ -150,7 +153,7 @@ class AuthViewModel @Inject constructor(
                     when (result) {
                         is DataState.Loading -> {
                             _otpVerificationInProgress.postValue(true)
-                            _otpError.postValue(null)
+                            _otpVerificationError.postValue(null)
                         }
 
                         is DataState.Success -> {
@@ -167,7 +170,7 @@ class AuthViewModel @Inject constructor(
 
                         is DataState.Error -> {
                             _otpVerificationInProgress.postValue(false)
-                            _otpError.postValue(
+                            _otpVerificationError.postValue(
                                 result.exception.message ?: "Invalid OTP"
                             )
                         }

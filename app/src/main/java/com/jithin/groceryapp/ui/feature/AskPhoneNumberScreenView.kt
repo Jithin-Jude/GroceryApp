@@ -13,35 +13,29 @@ package com.jithin.groceryapp.ui.feature
 import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.arpitkatiyarprojects.countrypicker.CountryPickerOutlinedTextField
 import com.arpitkatiyarprojects.countrypicker.models.CountryDetails
 import com.jithin.groceryapp.GroceryAppUtils
-import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.ui.theme.Typography
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 
@@ -50,11 +44,12 @@ fun AskPhoneNumberScreenView(
     navController: NavHostController,
     authViewModel: AuthViewModel,
 ) {
-    var phoneNumber by remember { mutableStateOf("") }
-    var selectedCountry by remember { mutableStateOf<CountryDetails?>(null) }
-
     val context = LocalContext.current
     val activity = context as Activity
+
+    var phoneNumber by remember { mutableStateOf("") }
+    var selectedCountry by remember { mutableStateOf<CountryDetails?>(null) }
+    val otpRequestError by authViewModel.otpRequestError.observeAsState()
 
     Scaffold(
         containerColor = Color.White
@@ -85,6 +80,16 @@ fun AskPhoneNumberScreenView(
                 label = { Text("Phone Number") },
                 modifier = Modifier.fillMaxWidth()
             )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            otpRequestError?.let {
+                Text(
+                    text = it,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
 
             Spacer(modifier = Modifier.height(32.dp))
 
