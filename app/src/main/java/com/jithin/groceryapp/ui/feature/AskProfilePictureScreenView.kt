@@ -122,7 +122,7 @@ fun AskProfilePictureScreenView(
 
             Box(
                 modifier = Modifier
-                    .size(200.dp)
+                    .size(150.dp)
                     .clip(CircleShape)
                     .background(Color.LightGray)
                     .clickable { launcher.launch("image/*") },
