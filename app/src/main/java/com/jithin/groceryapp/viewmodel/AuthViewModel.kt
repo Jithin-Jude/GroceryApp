@@ -1,6 +1,7 @@
 package com.jithin.groceryapp.viewmodel
 
 import android.app.Activity
+import android.net.Uri
 import com.jithin.groceryapp.network.AuthRepository
 import kotlinx.coroutines.flow.collect
 
@@ -16,8 +17,10 @@ import kotlinx.coroutines.flow.collect
 
 import androidx.lifecycle.*
 import com.jithin.groceryapp.domain.DataState
+import com.jithin.groceryapp.domain.UploadState
 import com.jithin.groceryapp.model.CustomerModel
 import com.jithin.groceryapp.network.CustomerDataRepository
+import com.jithin.groceryapp.network.StorageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,14 +29,12 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val customerDataRepository: CustomerDataRepository
+    private val customerDataRepository: CustomerDataRepository,
+    private val storageRepository: StorageRepository,
 ) : ViewModel() {
 
     private val _authUiState = MutableLiveData<AuthUiState>()
     val authUiState: LiveData<AuthUiState> = _authUiState
-
-    private val _isLoggedIn = MutableLiveData<Boolean>()
-    val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
 
     private val _otpLoading = MutableLiveData<Boolean>()
     val otpLoading: LiveData<Boolean> get() = _otpLoading
@@ -43,6 +44,9 @@ class AuthViewModel @Inject constructor(
 
     private val _verificationId = MutableLiveData<String>()
     val verificationId: LiveData<String> get() = _verificationId
+
+    private val _uploadState = MutableLiveData<UploadState>(UploadState.Idle)
+    val uploadState: LiveData<UploadState> = _uploadState
 
     init {
         checkAuthAndCustomerState()
@@ -172,7 +176,6 @@ class AuthViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch(Dispatchers.IO) {
             authRepository.signOut().collect()
-            _isLoggedIn.postValue(false)
         }
     }
 
@@ -212,18 +215,27 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun updateProfilePicture(url: String) {
+    fun uploadProfilePicture(imageUri: Uri) {
         val uid = authRepository.getLoggedInUser()?.uid ?: return
 
         viewModelScope.launch {
-            customerDataRepository
-                .updateCustomerFields(
-                    uid = uid,
-                    fields = mapOf("profilePictureUrl" to url)
-                )
-                .collect { result ->
-                    if (result is DataState.Success) {
-                        checkAuthAndCustomerState()
+            storageRepository
+                .uploadProfilePicture(uid, imageUri)
+                .collect { state ->
+                    _uploadState.postValue(state)
+
+                    if (state is UploadState.Success) {
+                        // 🔥 Safe partial update
+                        customerDataRepository
+                            .updateCustomerFields(
+                                uid,
+                                mapOf("profilePictureUrl" to state.downloadUrl)
+                            )
+                            .collect {
+                                if (it is DataState.Success) {
+                                    checkAuthAndCustomerState()
+                                }
+                            }
                     }
                 }
         }

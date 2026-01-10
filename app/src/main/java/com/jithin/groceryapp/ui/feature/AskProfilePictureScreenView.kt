@@ -30,6 +30,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -37,6 +38,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -52,6 +54,7 @@ import coil.compose.AsyncImage
 import com.arpitkatiyarprojects.countrypicker.CountryPickerOutlinedTextField
 import com.arpitkatiyarprojects.countrypicker.models.CountryDetails
 import com.jithin.groceryapp.MainActivity
+import com.jithin.groceryapp.domain.UploadState
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 
 @Composable
@@ -59,7 +62,7 @@ fun AskProfilePictureScreenView(
     navController: NavHostController,
     authViewModel: AuthViewModel,
 ) {
-    val context = LocalContext.current
+    val uploadState by authViewModel.uploadState.observeAsState(UploadState.Idle)
     var imageUri by remember { mutableStateOf<Uri?>(null) }
 
     val launcher = rememberLauncherForActivityResult(
@@ -87,34 +90,44 @@ fun AskProfilePictureScreenView(
                 modifier = Modifier
                     .size(140.dp)
                     .clip(CircleShape)
-                    .background(Color.Gray)
+                    .background(Color.LightGray)
                     .clickable { launcher.launch("image/*") },
                 contentAlignment = Alignment.Center
             ) {
-                if (imageUri != null) {
-                    AsyncImage(
-                        model = imageUri,
-                        contentDescription = null
-                    )
-                } else {
-                    Text("Tap to select")
+                when (uploadState) {
+                    is UploadState.Uploading,
+                    is UploadState.Progress -> {
+                        CircularProgressIndicator()
+                    }
+
+                    else -> {
+                        if (imageUri != null) {
+                            AsyncImage(model = imageUri, contentDescription = null)
+                        } else {
+                            Text("Tap to select")
+                        }
+                    }
                 }
             }
 
-            Spacer(Modifier.height(32.dp))
+            Spacer(Modifier.height(24.dp))
+
+            if (uploadState is UploadState.Progress) {
+                Text("Uploading ${(uploadState as UploadState.Progress).percent}%")
+            }
+
+            Spacer(Modifier.height(24.dp))
 
             Button(
-                enabled = imageUri != null,
+                enabled = imageUri != null && uploadState !is UploadState.Uploading,
                 onClick = {
                     imageUri?.let {
-                        // TEMP: use local uri
-                        // Later replace with Firebase Storage upload
-                        authViewModel.updateProfilePicture(it.toString())
+                        authViewModel.uploadProfilePicture(it)
                     }
                 }
             ) {
-                Text("Continue")
-            }
+                Text("Continue")}
+
         }
     }
 }

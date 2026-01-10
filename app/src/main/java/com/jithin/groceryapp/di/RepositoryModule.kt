@@ -16,6 +16,8 @@ import com.jithin.groceryapp.network.CustomerDataRepository
 import com.jithin.groceryapp.network.CustomerDataRepositoryImpl
 import com.jithin.groceryapp.network.ProductRepository
 import com.jithin.groceryapp.network.ProductRepositoryImpl
+import com.jithin.groceryapp.network.StorageRepository
+import com.jithin.groceryapp.network.StorageRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -32,6 +34,10 @@ abstract class RepositoryModule {
     @Singleton
     @Binds
     abstract fun bindsAuthRepository(impl: AuthRepositoryImpl): AuthRepository
+
+    @Singleton
+    @Binds
+    abstract fun bindsStorageRepositoryRepository(impl: StorageRepositoryImpl): StorageRepository
 
     @Singleton
     @Binds
