@@ -59,7 +59,7 @@ fun CartItemView(
         }
         Column(
             modifier = Modifier
-                .weight(1f)
+                .weight(2f)
                 .padding(horizontal = 8.dp)
         ) {
             Text(dish.name,
@@ -92,7 +92,10 @@ fun CartItemView(
                 buttonColor = GADeepGreen,
             )
         }
-        Column() {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+        ) {
             Text("${dish.currency} ${dish.price * dish.selectedCount}",
                 style = Typography.bodyLarge,
                 maxLines = 3,
