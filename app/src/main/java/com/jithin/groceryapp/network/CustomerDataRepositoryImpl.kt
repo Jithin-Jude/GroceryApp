@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.jithin.groceryapp.domain.DataState
 import com.jithin.groceryapp.model.CustomerModel
+import com.jithin.groceryapp.model.toNonNullMap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -36,7 +37,7 @@ class CustomerDataRepositoryImpl @Inject constructor(
 
             customersCollection
                 .document(customer.uid)
-                .set(customer, SetOptions.merge())
+                .set(customer.toNonNullMap(), SetOptions.merge())
                 .await()
 
             emit(DataState.Success(Unit))
