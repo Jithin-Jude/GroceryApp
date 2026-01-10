@@ -14,5 +14,6 @@ sealed class AuthUiState {
     object Loading : AuthUiState()
     object LoggedOut : AuthUiState()
     object NeedsName : AuthUiState()
+    object NeedsProfilePicture : AuthUiState()
     object Ready : AuthUiState()
 }

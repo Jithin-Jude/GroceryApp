@@ -62,10 +62,16 @@ class AuthViewModel @Inject constructor(
                 .collect { result ->
                     when (result) {
                         is DataState.Success -> {
-                            if (result.data.name.isNullOrBlank()) {
-                                _authUiState.postValue(AuthUiState.NeedsName)
-                            } else {
-                                _authUiState.postValue(AuthUiState.Ready)
+                            val customer = result.data
+                            when {
+                                customer.name.isNullOrBlank() ->
+                                    _authUiState.postValue(AuthUiState.NeedsName)
+
+                                customer.profilePictureUrl.isNullOrBlank() ->
+                                    _authUiState.postValue(AuthUiState.NeedsProfilePicture)
+
+                                else ->
+                                    _authUiState.postValue(AuthUiState.Ready)
                             }
                         }
 
@@ -193,20 +199,36 @@ class AuthViewModel @Inject constructor(
         val uid = authRepository.getLoggedInUser()?.uid ?: return
 
         viewModelScope.launch {
-            val customer = CustomerModel(
-                uid = uid,
-                name = name
-            )
-
             customerDataRepository
-                .addOrUpdateCustomer(customer)
+                .updateCustomerFields(
+                    uid = uid,
+                    fields = mapOf("name" to name)
+                )
                 .collect { result ->
                     if (result is DataState.Success) {
-                        _authUiState.postValue(AuthUiState.Ready)
+                        checkAuthAndCustomerState()
                     }
                 }
         }
     }
+
+    fun updateProfilePicture(url: String) {
+        val uid = authRepository.getLoggedInUser()?.uid ?: return
+
+        viewModelScope.launch {
+            customerDataRepository
+                .updateCustomerFields(
+                    uid = uid,
+                    fields = mapOf("profilePictureUrl" to url)
+                )
+                .collect { result ->
+                    if (result is DataState.Success) {
+                        checkAuthAndCustomerState()
+                    }
+                }
+        }
+    }
+
 
 
 }

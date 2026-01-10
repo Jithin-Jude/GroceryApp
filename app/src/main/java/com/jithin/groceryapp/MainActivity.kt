@@ -17,6 +17,7 @@ import com.jithin.groceryapp.ui.components.EmptyScreenView
 import com.jithin.groceryapp.ui.components.LoadingView
 import com.jithin.groceryapp.ui.feature.AskNameScreenView
 import com.jithin.groceryapp.ui.feature.AskPhoneNumberScreenView
+import com.jithin.groceryapp.ui.feature.AskProfilePictureScreenView
 import com.jithin.groceryapp.ui.feature.CartScreenView
 import com.jithin.groceryapp.ui.feature.HomeScreenView
 import com.jithin.groceryapp.ui.feature.LoginScreenView
@@ -74,6 +75,7 @@ class MainActivity : ComponentActivity() {
                 val startDestination = when (authState) {
                     AuthUiState.LoggedOut -> Routes.LoginScreen.route
                     AuthUiState.NeedsName -> Routes.AskNameScreen.route
+                    AuthUiState.NeedsProfilePicture -> Routes.AskProfilePictureScreen.route
                     AuthUiState.Ready -> Routes.HomeScreen.route
                     AuthUiState.Loading -> Routes.LoginScreen.route // fallback
                 }
@@ -124,6 +126,12 @@ class MainActivity : ComponentActivity() {
                     authViewModel,
                 )
             }
+            composable(Routes.AskProfilePictureScreen.route) {
+                AskProfilePictureScreenView(
+                    navController,
+                    authViewModel,
+                )
+            }
             composable(Routes.HomeScreen.route) {
                 HomeScreenView(
                     navController = navController,
@@ -147,6 +155,8 @@ class MainActivity : ComponentActivity() {
         object AskPhoneNumberScreen : Routes("askPhoneNumberScreen")
         object VerifyOtpScreen : Routes("verifyOtpScreen")
         object AskNameScreen : Routes("askNameScreen")
+        object AskProfilePictureScreen : Routes("askProfilePictureScreen")
+
         object HomeScreen : Routes("homeScreen")
         object CartScreen : Routes("cartScreen")
     }

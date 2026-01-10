@@ -59,7 +59,4 @@ class CustomerDataViewModel @Inject constructor(
         }
     }
 
-    fun clear() {
-        _customer.postValue(null)
-    }
 }

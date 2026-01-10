@@ -24,4 +24,9 @@ interface CustomerDataRepository {
     suspend fun getCustomerById(
         customerId: String
     ): Flow<DataState<CustomerModel>>
+
+    suspend fun updateCustomerFields(
+        uid: String,
+        fields: Map<String, Any>
+    ): Flow<DataState<Unit>>
 }

@@ -92,7 +92,7 @@ fun HomeScreenView(
             AppDrawerView(
                 userName = customer?.name ?: "Guest",
                 userId = customer?.uid ?: "_",
-                profilePhotoUrl = "https://picsum.photos/id/237/200/300",
+                profilePhotoUrl = customer?.profilePictureUrl,
                 onLogoutClick = {
                     authViewModel.logout()
                     navController.navigate(MainActivity.Routes.LoginScreen.route) {

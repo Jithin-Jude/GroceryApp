@@ -11,6 +11,7 @@ package com.jithin.groceryapp.network
  */
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.jithin.groceryapp.domain.DataState
 import com.jithin.groceryapp.model.CustomerModel
 import kotlinx.coroutines.flow.Flow
@@ -35,7 +36,25 @@ class CustomerDataRepositoryImpl @Inject constructor(
 
             customersCollection
                 .document(customer.uid)
-                .set(customer)
+                .set(customer, SetOptions.merge())
+                .await()
+
+            emit(DataState.Success(Unit))
+        } catch (e: Exception) {
+            emit(DataState.Error(e))
+        }
+    }
+
+    override suspend fun updateCustomerFields(
+        uid: String,
+        fields: Map<String, Any>
+    ): Flow<DataState<Unit>> = flow {
+        try {
+            emit(DataState.Loading)
+
+            customersCollection
+                .document(uid)
+                .update(fields)
                 .await()
 
             emit(DataState.Success(Unit))
