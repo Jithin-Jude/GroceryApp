@@ -16,3 +16,7 @@
 /.idea/assetWizardSettings.xml
 /.kotlin/errors/errors-1767952780684.log
 /.kotlin/errors/errors-1767954021497.log
+/app/release/app-release.apk
+/app/release/baselineProfiles/0/app-release.dm
+/app/release/baselineProfiles/1/app-release.dm
+/app/release/output-metadata.json
