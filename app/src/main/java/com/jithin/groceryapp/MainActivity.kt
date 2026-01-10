@@ -24,6 +24,7 @@ import com.jithin.groceryapp.ui.feature.VerifyOTPScreen
 import com.jithin.groceryapp.ui.theme.GroceryAppTheme
 import com.jithin.groceryapp.viewmodel.AuthUiState
 import com.jithin.groceryapp.viewmodel.AuthViewModel
+import com.jithin.groceryapp.viewmodel.CustomerDataViewModel
 import com.jithin.groceryapp.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
 
     private val productViewModel: ProductViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
+    private val customerDataViewModel: CustomerDataViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -40,7 +42,8 @@ class MainActivity : ComponentActivity() {
             GroceryAppTheme {
                 AppRoot(
                     productViewModel = productViewModel,
-                    authViewModel = authViewModel
+                    authViewModel = authViewModel,
+                    customerDataViewModel = customerDataViewModel,
                 )
             }
         }
@@ -49,7 +52,8 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun AppRoot(
         productViewModel: ProductViewModel,
-        authViewModel: AuthViewModel
+        authViewModel: AuthViewModel,
+        customerDataViewModel: CustomerDataViewModel,
     ) {
         val navController = rememberNavController()
 
@@ -79,6 +83,7 @@ class MainActivity : ComponentActivity() {
                     startDestination = startDestination,
                     productViewModel = productViewModel,
                     authViewModel = authViewModel,
+                    customerDataViewModel = customerDataViewModel,
                     listOfProducts = products!!
                 )
             }
@@ -91,6 +96,7 @@ class MainActivity : ComponentActivity() {
         startDestination: String,
         productViewModel: ProductViewModel,
         authViewModel: AuthViewModel,
+        customerDataViewModel: CustomerDataViewModel,
         listOfProducts: List<CategoryModel>,
     ) {
         NavHost(navController, startDestination = startDestination) {
@@ -120,10 +126,11 @@ class MainActivity : ComponentActivity() {
             }
             composable(Routes.HomeScreen.route) {
                 HomeScreenView(
-                    navController,
-                    productViewModel,
-                    authViewModel,
-                    listOfProducts,
+                    navController = navController,
+                    productViewModel = productViewModel,
+                    authViewModel = authViewModel,
+                    customerDataViewModel = customerDataViewModel,
+                    listOfProducts = listOfProducts,
                 )
             }
             composable(Routes.CartScreen.route) { navBackStack ->

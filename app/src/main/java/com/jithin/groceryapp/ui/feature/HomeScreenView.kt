@@ -38,6 +38,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
@@ -64,6 +65,7 @@ import com.jithin.groceryapp.ui.theme.DividerGrey
 import com.jithin.groceryapp.viewmodel.ProductViewModel
 import com.jithin.groceryapp.ui.theme.Typography
 import com.jithin.groceryapp.viewmodel.AuthViewModel
+import com.jithin.groceryapp.viewmodel.CustomerDataViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,18 +74,24 @@ fun HomeScreenView(
     navController: NavHostController,
     productViewModel: ProductViewModel,
     authViewModel: AuthViewModel,
+    customerDataViewModel: CustomerDataViewModel,
     listOfProducts: List<CategoryModel>,
 ) {
+    val customer by customerDataViewModel.customer.observeAsState()
     val cartCount by productViewModel.totalCartCount.observeAsState(0)
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        customerDataViewModel.loadCustomer()
+    }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             AppDrawerView(
-                userName = "Guest",
-                userId = "123",
+                userName = customer?.name ?: "Guest",
+                userId = customer?.uid ?: "_",
                 profilePhotoUrl = "https://picsum.photos/id/237/200/300",
                 onLogoutClick = {
                     authViewModel.logout()
