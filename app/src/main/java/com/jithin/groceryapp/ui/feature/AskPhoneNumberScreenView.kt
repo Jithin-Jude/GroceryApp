@@ -94,7 +94,6 @@ fun AskPhoneNumberScreenView(
                 onClick = {
                     val fullPhone = "${selectedCountry?.countryPhoneNumberCode ?: ""}$phoneNumber"
                     authViewModel.requestOTP(activity, fullPhone)
-                    navController.navigate(MainActivity.Routes.VerifyOtpScreen.route)
                 }
             ) {
                 Text("Request OTP",

@@ -73,6 +73,8 @@ class MainActivity : ComponentActivity() {
             else -> {
                 val startDestination = when (authState) {
                     AuthUiState.LoggedOut -> Routes.LoginScreen.route
+                    AuthUiState.OTPRequestError -> Routes.AskPhoneNumberScreen.route
+                    AuthUiState.ShowVerifyOTPScreen -> Routes.VerifyOtpScreen.route
                     AuthUiState.NeedsName -> Routes.AskNameScreen.route
                     AuthUiState.NeedsProfilePicture -> Routes.AskProfilePictureScreen.route
                     AuthUiState.Ready -> Routes.HomeScreen.route
@@ -155,7 +157,6 @@ class MainActivity : ComponentActivity() {
         object VerifyOtpScreen : Routes("verifyOtpScreen")
         object AskNameScreen : Routes("askNameScreen")
         object AskProfilePictureScreen : Routes("askProfilePictureScreen")
-
         object HomeScreen : Routes("homeScreen")
         object CartScreen : Routes("cartScreen")
     }

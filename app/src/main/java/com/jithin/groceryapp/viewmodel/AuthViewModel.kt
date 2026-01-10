@@ -36,8 +36,8 @@ class AuthViewModel @Inject constructor(
     private val _authUiState = MutableLiveData<AuthUiState>()
     val authUiState: LiveData<AuthUiState> = _authUiState
 
-    private val _otpLoading = MutableLiveData<Boolean>()
-    val otpLoading: LiveData<Boolean> get() = _otpLoading
+    private val _otpVerificationInProgress = MutableLiveData<Boolean>()
+    val otpVerificationInProgress: LiveData<Boolean> get() = _otpVerificationInProgress
 
     private val _otpError = MutableLiveData<String?>()
     val otpError: LiveData<String?> get() = _otpError
@@ -120,17 +120,17 @@ class AuthViewModel @Inject constructor(
                 .collect { result ->
                     when (result) {
                         is DataState.Loading -> {
-                            _otpLoading.postValue(true)
+                            _authUiState.postValue(AuthUiState.Loading)
                             _otpError.postValue(null)
                         }
 
                         is DataState.Success -> {
-                            _otpLoading.postValue(false)
                             _verificationId.postValue(result.data)
+                            _authUiState.postValue(AuthUiState.ShowVerifyOTPScreen)
                         }
 
                         is DataState.Error -> {
-                            _otpLoading.postValue(false)
+                            _authUiState.postValue(AuthUiState.OTPRequestError)
                             _otpError.postValue(
                                 result.exception.message ?: "OTP request failed"
                             )
@@ -149,7 +149,7 @@ class AuthViewModel @Inject constructor(
                 .collect { result ->
                     when (result) {
                         is DataState.Loading -> {
-                            _otpLoading.postValue(true)
+                            _otpVerificationInProgress.postValue(true)
                             _otpError.postValue(null)
                         }
 
@@ -161,12 +161,12 @@ class AuthViewModel @Inject constructor(
                                     phoneNumber = it.phoneNumber
                                 )
                             }
-                            _otpLoading.postValue(false)
+                            _otpVerificationInProgress.postValue(false)
                             checkAuthAndCustomerState()
                         }
 
                         is DataState.Error -> {
-                            _otpLoading.postValue(false)
+                            _otpVerificationInProgress.postValue(false)
                             _otpError.postValue(
                                 result.exception.message ?: "Invalid OTP"
                             )

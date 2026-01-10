@@ -41,7 +41,7 @@ fun VerifyOTPScreen(
     navController: NavHostController,
     authViewModel: AuthViewModel,
 ) {
-    val otpLoading by authViewModel.otpLoading.observeAsState(false)
+    val otpLoading by authViewModel.otpVerificationInProgress.observeAsState(false)
     val otpError by authViewModel.otpError.observeAsState()
 
     var otp by remember { mutableStateOf("") }
