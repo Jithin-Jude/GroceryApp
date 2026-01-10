@@ -26,9 +26,19 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("/Users/jithinjude/Desktop/groceryapp/app_keys/grocery_app.jks")
+            storePassword = "102145@THrilling$"
+            keyAlias = "key0"
+            keyPassword = "102145@THrilling$"
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.getByName("release") // ✅ IMPORTANT
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
