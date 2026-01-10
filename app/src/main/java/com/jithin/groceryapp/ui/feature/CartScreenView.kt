@@ -118,7 +118,7 @@ fun CartScreenView(
                     onClick = {
                         showSuccessDialog = true
                         scope.launch {
-                            delay(3000)
+                            delay(1000)
                             productViewModel.clearCart()
                             showSuccessDialog = false
                             navController.navigate(MainActivity.Routes.HomeScreen.route) {

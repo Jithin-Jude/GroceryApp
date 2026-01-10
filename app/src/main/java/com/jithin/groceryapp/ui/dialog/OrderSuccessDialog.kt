@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.jithin.groceryapp.R
@@ -40,7 +42,8 @@ fun OrderSuccessDialog() {
                 .background(Color.White, shape = RoundedCornerShape(16.dp)),
             contentAlignment = Alignment.Center
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(16.dp)) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_success),
                     contentDescription = null,
@@ -50,7 +53,9 @@ fun OrderSuccessDialog() {
                 Spacer(Modifier.height(16.dp))
                 Text(
                     text = "Order successfully placed",
-                    style = Typography.titleMedium
+                    style = Typography.titleMedium,
+                    color = Color.Black,
+                    textAlign = TextAlign.Center,
                 )
             }
         }
