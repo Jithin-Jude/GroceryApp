@@ -31,7 +31,7 @@ class StorageRepositoryImpl @Inject constructor(
 
         val ref = storage
             .reference
-            .child("users/$uid/profile_picture")
+            .child("profile_picture/$uid")
 
         val uploadTask = ref.putFile(imageUri)
 
