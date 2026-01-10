@@ -30,6 +30,7 @@ import androidx.navigation.NavHostController
 import com.jithin.groceryapp.GroceryAppUtils.capitalizeFirstLetter
 import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.R
+import com.jithin.groceryapp.domain.Routes
 import com.jithin.groceryapp.ui.components.RoundedCornerButton
 import com.jithin.groceryapp.ui.theme.AppBackground
 import com.jithin.groceryapp.ui.theme.GABlue
@@ -123,7 +124,7 @@ fun LoginScreenView(
                         iconRes = R.drawable.ic_phone,
                         backgroundColor = GAGreen,
                         onClick = {
-                            navController.navigate(MainActivity.Routes.AskPhoneNumberScreen.route)
+                            navController.navigate(Routes.AskPhoneNumberScreen.route)
                         }
                     )
                 }

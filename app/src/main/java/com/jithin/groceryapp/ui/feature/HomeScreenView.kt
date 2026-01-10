@@ -43,6 +43,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.R
+import com.jithin.groceryapp.domain.Routes
 import com.jithin.groceryapp.ui.components.AppDrawerView
 import com.jithin.groceryapp.ui.components.CategoryTabsView
 import com.jithin.groceryapp.ui.components.EmptyScreenView
@@ -81,7 +82,7 @@ fun HomeScreenView(
                 profilePhotoUrl = customer?.profilePictureUrl,
                 onLogoutClick = {
                     authViewModel.logout()
-                    navController.navigate(MainActivity.Routes.LoginScreen.route) {
+                    navController.navigate(Routes.LoginScreen.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             inclusive = true
                         }
@@ -113,7 +114,7 @@ fun HomeScreenView(
                             IconButton(
                                 onClick = {
                                     navController.navigate(
-                                        MainActivity.Routes.CartScreen.route
+                                        Routes.CartScreen.route
                                     )
                                 }
                             ) {

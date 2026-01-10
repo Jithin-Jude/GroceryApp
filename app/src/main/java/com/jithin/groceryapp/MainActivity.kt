@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.jithin.groceryapp.domain.Routes
 import com.jithin.groceryapp.ui.components.LoadingView
 import com.jithin.groceryapp.ui.feature.AskNameScreenView
 import com.jithin.groceryapp.ui.feature.AskPhoneNumberScreenView
@@ -140,15 +141,5 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
-    }
-
-    sealed class Routes(val route: String) {
-        object LoginScreen : Routes("loginScreen")
-        object AskPhoneNumberScreen : Routes("askPhoneNumberScreen")
-        object VerifyOtpScreen : Routes("verifyOtpScreen")
-        object AskNameScreen : Routes("askNameScreen")
-        object AskProfilePictureScreen : Routes("askProfilePictureScreen")
-        object HomeScreen : Routes("homeScreen")
-        object CartScreen : Routes("cartScreen")
     }
 }

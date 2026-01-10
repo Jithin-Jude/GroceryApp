@@ -69,6 +69,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.jithin.groceryapp.GroceryAppUtils.roundTo2Decimals
+import com.jithin.groceryapp.domain.Routes
 import com.jithin.groceryapp.ui.theme.GADeepGreen
 import com.jithin.groceryapp.ui.theme.GAGreen
 
@@ -121,8 +122,8 @@ fun CartScreenView(
                             delay(1000)
                             productViewModel.clearCart()
                             showSuccessDialog = false
-                            navController.navigate(MainActivity.Routes.HomeScreen.route) {
-                                popUpTo(MainActivity.Routes.HomeScreen.route) {
+                            navController.navigate(Routes.HomeScreen.route) {
+                                popUpTo(Routes.HomeScreen.route) {
                                     inclusive = true
                                 }
                             }
