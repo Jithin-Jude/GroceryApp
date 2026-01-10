@@ -10,6 +10,7 @@ package com.jithin.groceryapp.network
  * --------------------------------------------------------------------------
  */
 import android.app.Activity
+import com.google.firebase.auth.FirebaseUser
 import com.jithin.groceryapp.domain.DataState
 import kotlinx.coroutines.flow.Flow
 
@@ -27,5 +28,5 @@ interface AuthRepository {
     ): Flow<DataState<Unit>>
 
     suspend fun signOut(): Flow<DataState<Unit>>
-    fun getLoggedInUserId(): String?
+    fun getLoggedInUser(): FirebaseUser?
 }

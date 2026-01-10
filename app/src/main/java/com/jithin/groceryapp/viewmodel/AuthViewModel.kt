@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.collect
 
 import androidx.lifecycle.*
 import com.jithin.groceryapp.domain.DataState
+import com.jithin.groceryapp.model.CustomerModel
+import com.jithin.groceryapp.network.CustomerDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val customerDataRepository: CustomerDataRepository
 ) : ViewModel() {
 
     private val _isLoggedIn = MutableLiveData<Boolean>()
@@ -43,13 +46,21 @@ class AuthViewModel @Inject constructor(
     }
 
     fun checkLoginStatus() {
-        _isLoggedIn.value = authRepository.getLoggedInUserId() != null
+        _isLoggedIn.value = authRepository.getLoggedInUser()?.uid != null
     }
 
     fun loginWithGoogle(activity: Activity) {
         viewModelScope.launch {
             authRepository.signInWithGoogle(activity).collect { result ->
                 if (result is DataState.Success) {
+                    val user = authRepository.getLoggedInUser()
+                    user?.let {
+                        saveCustomer(
+                            uid = it.uid,
+                            name = it.displayName,
+                            email = it.email
+                        )
+                    }
                     _isLoggedIn.postValue(true)
                 }
             }
@@ -97,6 +108,13 @@ class AuthViewModel @Inject constructor(
                         }
 
                         is DataState.Success -> {
+                            val user = authRepository.getLoggedInUser()
+                            user?.let {
+                                saveCustomer(
+                                    uid = it.uid,
+                                    phoneNumber = it.phoneNumber
+                                )
+                            }
                             _otpLoading.postValue(false)
                             _isLoggedIn.postValue(true)
                         }
@@ -118,4 +136,25 @@ class AuthViewModel @Inject constructor(
             _isLoggedIn.postValue(false)
         }
     }
+
+    private fun saveCustomer(
+        uid: String,
+        name: String? = null,
+        email: String? = null,
+        phoneNumber: String? = null
+    ) {
+        viewModelScope.launch {
+            val customer = CustomerModel(
+                uid = uid,
+                name = name,
+                email = email,
+                phoneNumber = phoneNumber
+            )
+
+            customerDataRepository
+                .addOrUpdateCustomer(customer)
+                .collect()
+        }
+    }
+
 }

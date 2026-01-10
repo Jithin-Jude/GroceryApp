@@ -15,6 +15,7 @@ import androidx.credentials.*
 import com.google.android.libraries.identity.googleid.*
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
@@ -170,7 +171,7 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getLoggedInUserId(): String? {
-        return firebaseAuth.currentUser?.uid
+    override fun getLoggedInUser(): FirebaseUser? {
+        return firebaseAuth.currentUser
     }
 }
