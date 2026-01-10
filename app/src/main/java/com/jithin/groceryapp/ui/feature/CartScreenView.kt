@@ -66,7 +66,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.jithin.groceryapp.GroceryAppUtils.roundTo2Decimals
 import com.jithin.groceryapp.ui.theme.GADeepGreen
 import com.jithin.groceryapp.ui.theme.GAGreen
 
@@ -204,9 +206,10 @@ fun CartScreenView(
                         Spacer(Modifier.weight(1f))
                         Text(
                             modifier = Modifier.padding(16.dp),
-                            text = "${summary.currency} ${summary.totalAmount}",
+                            text = "${summary.currency} ${summary.totalAmount.roundTo2Decimals()}",
                             style = Typography.bodyLarge,
                             color = GAGreen,
+                            fontWeight = FontWeight.Normal
                         )
                     }
                 }

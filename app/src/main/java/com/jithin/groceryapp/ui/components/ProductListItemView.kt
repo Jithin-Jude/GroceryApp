@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.jithin.groceryapp.GroceryAppUtils.networkImageLoaderWithCache
+import com.jithin.groceryapp.GroceryAppUtils.roundTo2Decimals
 import com.jithin.groceryapp.R
 import com.jithin.groceryapp.model.DishModel
 import com.jithin.groceryapp.ui.theme.GAGreen
@@ -74,7 +75,7 @@ fun ProductListItemView(dish: DishModel,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row() {
-                Text("${dish.currency} ${dish.price}",
+                Text("${dish.currency} ${dish.price.roundTo2Decimals()}",
                     style = Typography.bodyLarge,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis

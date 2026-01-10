@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.jithin.groceryapp.GroceryAppUtils.roundTo2Decimals
 import com.jithin.groceryapp.R
 import com.jithin.groceryapp.model.DishModel
 import com.jithin.groceryapp.ui.theme.GADeepGreen
@@ -68,7 +69,7 @@ fun CartItemView(
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text("${dish.currency} ${dish.price}",
+            Text("${dish.currency} ${dish.price.roundTo2Decimals()}",
                 style = Typography.bodyLarge,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
@@ -96,7 +97,7 @@ fun CartItemView(
             modifier = Modifier
                 .weight(1f)
         ) {
-            Text("${dish.currency} ${dish.price * dish.selectedCount}",
+            Text("${dish.currency} ${(dish.price * dish.selectedCount).roundTo2Decimals()}",
                 style = Typography.bodyLarge,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis

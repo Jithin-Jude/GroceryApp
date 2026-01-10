@@ -5,6 +5,8 @@ import android.util.Log
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import kotlinx.coroutines.Dispatchers
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 object GroceryAppUtils {
     fun printLog(text: String?) {
@@ -38,4 +40,11 @@ object GroceryAppUtils {
 
         return true
     }
+
+    fun Double.roundTo2Decimals(): String {
+        val df = DecimalFormat("0.00")
+        df.roundingMode = RoundingMode.HALF_UP
+        return df.format(this)
+    }
+
 }
