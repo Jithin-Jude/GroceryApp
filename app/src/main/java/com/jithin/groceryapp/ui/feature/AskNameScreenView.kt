@@ -86,7 +86,10 @@ fun AskNameScreenView(
                     .windowInsetsPadding(WindowInsets.ime)
                     .height(52.dp)
             ) {
-                Text("Continue")
+                Text("Continue",
+                    color = Color.White,
+                    style = Typography.titleLarge,
+                    )
             }
         }
     ) { paddingValues ->

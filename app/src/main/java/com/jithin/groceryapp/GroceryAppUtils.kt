@@ -24,4 +24,18 @@ object GroceryAppUtils {
             .memoryCachePolicy(CachePolicy.ENABLED)
             .build()
     }
+
+
+    fun isValidPhoneNumber(phoneNumber: String): Boolean {
+        val normalized = phoneNumber
+            .replace("\\s".toRegex(), "")
+            .replace("-", "")
+
+        // Must start with optional + and contain only digits
+        if (!normalized.matches(Regex("^\\+?[0-9]{8,15}$"))) {
+            return false
+        }
+
+        return true
+    }
 }

@@ -40,7 +40,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.arpitkatiyarprojects.countrypicker.CountryPickerOutlinedTextField
 import com.arpitkatiyarprojects.countrypicker.models.CountryDetails
+import com.jithin.groceryapp.GroceryAppUtils
 import com.jithin.groceryapp.MainActivity
+import com.jithin.groceryapp.ui.theme.Typography
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 
 @Composable
@@ -88,14 +90,17 @@ fun AskPhoneNumberScreenView(
 
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                enabled = phoneNumber.isNotBlank() && selectedCountry != null,
+                enabled = GroceryAppUtils.isValidPhoneNumber("${selectedCountry?.countryPhoneNumberCode ?: ""}$phoneNumber"),
                 onClick = {
                     val fullPhone = "${selectedCountry?.countryPhoneNumberCode ?: ""}$phoneNumber"
                     authViewModel.requestOTP(activity, fullPhone)
                     navController.navigate(MainActivity.Routes.VerifyOtpScreen.route)
                 }
             ) {
-                Text("Request OTP")
+                Text("Request OTP",
+                    color = Color.White,
+                    style = Typography.titleLarge,
+                )
             }
         }
     }
