@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.jithin.groceryapp.ui.theme.Typography
 
 
 /*
@@ -34,8 +35,8 @@ fun RoundedCornerButton(
     backgroundColor: Color,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    height: Dp = 52.dp,
-    cornerRadius: Dp = 30.dp
+    height: Dp = 70.dp,
+    cornerRadius: Dp = 50.dp
 ) {
     Button(
         onClick = onClick,
@@ -57,7 +58,7 @@ fun RoundedCornerButton(
                 contentDescription = text,
                 modifier = Modifier
                     .align(Alignment.CenterStart)
-                    .size(20.dp),
+                    .size(32.dp),
                 tint = Color.Unspecified
             )
 
@@ -65,7 +66,8 @@ fun RoundedCornerButton(
             Text(
                 text = text,
                 modifier = Modifier.align(Alignment.Center),
-                color = Color.White
+                color = Color.White,
+                style = Typography.titleLarge
             )
         }
     }

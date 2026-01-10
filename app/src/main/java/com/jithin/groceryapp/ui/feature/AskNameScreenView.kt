@@ -55,10 +55,8 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.arpitkatiyarprojects.countrypicker.CountryPickerOutlinedTextField
-import com.arpitkatiyarprojects.countrypicker.models.CountryDetails
-import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.viewmodel.AuthViewModel
+import com.jithin.groceryapp.ui.theme.Typography
 
 @Composable
 fun AskNameScreenView(
@@ -116,7 +114,7 @@ fun AskNameScreenView(
                     ) {
                         Text(
                             text = "What should we call you?",
-                            style = MaterialTheme.typography.headlineSmall
+                            style = Typography.titleLarge,
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))

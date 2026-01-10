@@ -21,16 +21,23 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -46,6 +53,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -55,6 +63,7 @@ import com.arpitkatiyarprojects.countrypicker.CountryPickerOutlinedTextField
 import com.arpitkatiyarprojects.countrypicker.models.CountryDetails
 import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.domain.UploadState
+import com.jithin.groceryapp.ui.theme.Typography
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 
 @Composable
@@ -72,23 +81,45 @@ fun AskProfilePictureScreenView(
     }
 
     Scaffold(
-        containerColor = Color.White
+        containerColor = Color.White,
+        bottomBar = {
+            Button(
+                onClick = {
+                    imageUri?.let {
+                        authViewModel.uploadProfilePicture(it)
+                    }
+                },
+                enabled = imageUri != null && uploadState !is UploadState.Uploading,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .padding(bottom = 32.dp)
+                    .windowInsetsPadding(WindowInsets.ime)
+                    .height(52.dp)
+            ) {
+                Text("Continue")
+            }
+        }
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
                 .padding(24.dp),
-            verticalArrangement = Arrangement.Center
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
-            Text("Add a profile picture")
 
             Spacer(Modifier.height(24.dp))
 
+            Text("Add a profile picture",
+                style = Typography.titleLarge,
+                )
+
+            Spacer(Modifier.weight(1f))
+
             Box(
                 modifier = Modifier
-                    .size(140.dp)
+                    .size(200.dp)
                     .clip(CircleShape)
                     .background(Color.LightGray)
                     .clickable { launcher.launch("image/*") },
@@ -102,9 +133,14 @@ fun AskProfilePictureScreenView(
 
                     else -> {
                         if (imageUri != null) {
-                            AsyncImage(model = imageUri, contentDescription = null)
+                            AsyncImage(model = imageUri, contentDescription = null, contentScale = ContentScale.Crop)
                         } else {
-                            Text("Tap to select")
+                            Icon(
+                                imageVector = Icons.Default.Image,
+                                contentDescription = "Gallery",
+                                tint = Color.Black,
+                                modifier = Modifier.size(64.dp)
+                            )
                         }
                     }
                 }
@@ -116,17 +152,7 @@ fun AskProfilePictureScreenView(
                 Text("Uploading ${(uploadState as UploadState.Progress).percent}%")
             }
 
-            Spacer(Modifier.height(24.dp))
-
-            Button(
-                enabled = imageUri != null && uploadState !is UploadState.Uploading,
-                onClick = {
-                    imageUri?.let {
-                        authViewModel.uploadProfilePicture(it)
-                    }
-                }
-            ) {
-                Text("Continue")}
+            Spacer(Modifier.weight(1f))
 
         }
     }

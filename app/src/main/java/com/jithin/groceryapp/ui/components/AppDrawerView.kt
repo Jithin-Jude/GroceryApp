@@ -44,6 +44,8 @@ fun AppDrawerView(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
+            Spacer(modifier = Modifier.height(64.dp))
+
             AsyncImage(
                 model = profilePhotoUrl,
                 contentDescription = "Profile Picture",

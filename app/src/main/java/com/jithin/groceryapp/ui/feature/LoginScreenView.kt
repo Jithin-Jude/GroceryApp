@@ -6,8 +6,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Scaffold
@@ -23,6 +25,8 @@ import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.R
 import com.jithin.groceryapp.ui.components.RoundedCornerButton
 import com.jithin.groceryapp.ui.theme.AppBackground
+import com.jithin.groceryapp.ui.theme.GABlue
+import com.jithin.groceryapp.ui.theme.GAGreen
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 
 
@@ -54,13 +58,14 @@ fun LoginScreenView(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(24.dp)
+                    .padding(horizontal = 24.dp)
             ) {
+
+                Spacer(modifier = Modifier.weight(1f))
 
                 // ───────────────── TOP SECTION (LOGO) ─────────────────
                 Box(
                     modifier = Modifier
-                        .weight(1f)
                         .fillMaxWidth(),
                     contentAlignment = Alignment.Center
                 ) {
@@ -70,6 +75,8 @@ fun LoginScreenView(
                         modifier = Modifier.size(160.dp)
                     )
                 }
+
+                Spacer(modifier = Modifier.weight(1f))
 
                 // ───────────────── BOTTOM SECTION (BUTTONS) ─────────────────
                 Column(
@@ -81,7 +88,7 @@ fun LoginScreenView(
                     RoundedCornerButton(
                         text = "Google",
                         iconRes = R.drawable.ic_google,
-                        backgroundColor = Color.Blue,
+                        backgroundColor = GABlue,
                         onClick = {
                             authViewModel.loginWithGoogle(activity)
                         }
@@ -92,12 +99,13 @@ fun LoginScreenView(
                     RoundedCornerButton(
                         text = "Phone",
                         iconRes = R.drawable.ic_phone,
-                        backgroundColor = Color.Green,
+                        backgroundColor = GAGreen,
                         onClick = {
                             navController.navigate(MainActivity.Routes.AskPhoneNumberScreen.route)
                         }
                     )
                 }
+                Spacer(modifier = Modifier.weight(0.5f))
             }
         }
     }
