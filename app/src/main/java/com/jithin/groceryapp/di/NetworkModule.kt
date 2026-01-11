@@ -10,10 +10,10 @@ package com.jithin.groceryapp.di
  */
 
 import android.content.Context
-import com.jithin.groceryapp.GroceryAppConstants.BASE_URL
-import com.jithin.groceryapp.network.CacheInterceptor
-import com.jithin.groceryapp.network.ForceCacheInterceptor
-import com.jithin.groceryapp.network.ProductApiService
+import com.jithin.groceryapp.core.utils.GroceryAppConstants.BASE_URL
+import com.jithin.groceryapp.data.remote.interceptor.CacheInterceptor
+import com.jithin.groceryapp.data.remote.interceptor.ForceCacheInterceptor
+import com.jithin.groceryapp.data.remote.api.ProductApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

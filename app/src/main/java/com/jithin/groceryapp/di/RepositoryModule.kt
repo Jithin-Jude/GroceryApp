@@ -10,14 +10,14 @@ package com.jithin.groceryapp.di
  * --------------------------------------------------------------------------
  */
 
-import com.jithin.groceryapp.network.AuthRepository
-import com.jithin.groceryapp.network.AuthRepositoryImpl
-import com.jithin.groceryapp.network.CustomerDataRepository
-import com.jithin.groceryapp.network.CustomerDataRepositoryImpl
-import com.jithin.groceryapp.network.ProductRepository
-import com.jithin.groceryapp.network.ProductRepositoryImpl
-import com.jithin.groceryapp.network.StorageRepository
-import com.jithin.groceryapp.network.StorageRepositoryImpl
+import com.jithin.groceryapp.domain.repository.AuthRepository
+import com.jithin.groceryapp.data.repository.AuthRepositoryImpl
+import com.jithin.groceryapp.domain.repository.CustomerDataRepository
+import com.jithin.groceryapp.data.repository.CustomerDataRepositoryImpl
+import com.jithin.groceryapp.domain.repository.ProductRepository
+import com.jithin.groceryapp.data.repository.ProductRepositoryImpl
+import com.jithin.groceryapp.domain.repository.StorageRepository
+import com.jithin.groceryapp.data.repository.StorageRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
