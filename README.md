@@ -132,7 +132,11 @@ Update Dish Count:
 ### 3rd party libraries used:
 [Coil for image loading](https://coil-kt.github.io/coil/)
 
+[Country Code Picker](https://github.com/arpitkatiyar1999/Country-Picker)
+
 ### References:
+
+[Google Credential Manager](https://firebase.google.com/docs/auth/android/google-signin)
 
 [State managemen in compose](https://developer.android.com/develop/ui/compose/state#managing-state)
 
