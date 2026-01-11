@@ -20,26 +20,21 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keepattributes Signature
--keepattributes *Annotation*
-
 -keep class com.jithin.groceryapp.data.remote.dto.** { *; }
 
 ############################################
-# 1. KEEP KOTLIN METADATA (CRITICAL)
+# 1. KEEP RETROFIT
+############################################
+-keep class retrofit2.** { *; }
+-dontwarn retrofit2.**
+
+############################################
+# 2. KEEP KOTLIN METADATA
 ############################################
 -keep class kotlin.Metadata { *; }
 -keepattributes KotlinMetadata
 
 ############################################
-# 3. KEEP RETROFIT + OKHTTP
-############################################
--keep class retrofit2.** { *; }
--keep class okhttp3.** { *; }
--dontwarn retrofit2.**
--dontwarn okhttp3.**
-
-############################################
-# 6. KEEP CONTINUATION GENERICS
+# 3. KEEP CONTINUATION GENERICS
 ############################################
 -keep class kotlin.coroutines.Continuation
