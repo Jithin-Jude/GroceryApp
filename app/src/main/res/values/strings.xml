@@ -13,7 +13,7 @@
     <string name="may_we_have_your_name">May we have your name?</string>
     <string name="enter_your_name">Enter your name</string>
     <string name="add_a_profile_picture">Add a profile picture</string>
-    <string name="label_uploading">Uploading %1$d%</string>
+    <string name="label_uploading">Uploading %d%%</string>
     <string name="home">Home</string>
     <string name="order_summary">Order Summary</string>
     <string name="place_order">Place Order</string>
