@@ -16,3 +16,11 @@ Notes
 1. <b>OkHttp caching:</b> Once the menu data is fetched for the first time, app will be able to show data in case of no or poor network conditions. This also helps to reduce network traffic since it getting the cached data. The data will cache for 7 days & this can be adjusted.
 
 2. <b>Caching of image with Coil library & use of placeholders:</b> Use of placeholders enhance UI on loading images for the first time while caching ensure faster image loading for subsequent app sessions.
+
+### Challenges faced during development & solutions arrived:
+- During development, I faced a challenge where API calls using Retrofit and Kotlin suspend functions worked fine in debug mode but failed in release mode. The issue was caused by R8 removing Kotlin metadata and generic type information that Retrofit needs to understand the API response type at runtime. Because of this, the app was unable to fetch products from API.
+I fixed the issue by adding the correct ProGuard rules to keep Retrofit classes, Kotlin metadata, and coroutine continuation information.
+
+- App was not performing well in case of poor network (slow loading & data loss). Solved this issue by enabling OkHttp caching.
+### App Demo: [download APK here](https://drive.google.com/file/d/1DzXIe6ACeSb62D3gzsVOdjohm0F7UeWb/view?usp=sharing)
+![](https://github.com/Jithin-Jude/GroceryApp/blob/main/demo_images/gorcery_app_demo_jithin_k_jose.gif)
