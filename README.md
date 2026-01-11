@@ -24,3 +24,118 @@ I fixed the issue by adding the correct ProGuard rules to keep Retrofit classes,
 - App was not performing well in case of poor network (slow loading & data loss). Solved this issue by enabling OkHttp caching.
 ### App Demo: [download APK here](https://drive.google.com/file/d/1DzXIe6ACeSb62D3gzsVOdjohm0F7UeWb/view?usp=sharing)
 ![](https://github.com/Jithin-Jude/GroceryApp/blob/main/demo_images/gorcery_app_demo_jithin_k_jose.gif)
+
+### Important Code snippets:
+Compose Navigation:
+```kt
+NavHost(navController, startDestination = startDestination) {
+            composable(Routes.LoginScreen.route) {
+                LoginScreenView(
+                    navController,
+                    onboardingViewModel,
+                )
+            }
+            composable(Routes.AskPhoneNumberScreen.route) {
+                AskPhoneNumberScreenView(
+                    navController,
+                    onboardingViewModel,
+                )
+            }
+            composable(Routes.VerifyOtpScreen.route) {
+                VerifyOTPScreen(
+                    navController,
+                    onboardingViewModel,
+                )
+            }
+            composable(Routes.AskNameScreen.route) {
+                AskNameScreenView(
+                    navController,
+                    onboardingViewModel,
+                )
+            }
+            composable(Routes.AskProfilePictureScreen.route) {
+                AskProfilePictureScreenView(
+                    navController,
+                    onboardingViewModel,
+                )
+            }
+            composable(Routes.HomeScreen.route) {
+                HomeScreenView(
+                    navController = navController,
+                    productViewModel = productViewModel,
+                    onboardingViewModel = onboardingViewModel,
+                    customerDataViewModel = customerDataViewModel,
+                )
+            }
+            composable(Routes.CartScreen.route) {
+                CartScreenView(
+                    navController,
+                    productViewModel,
+                )
+            }
+        }
+```
+
+Fetch Menu:
+```kt
+    fun fetchAllProductsAndCategories() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _productsLoader.postValue(true)
+            repository.getAllProducts().collect { result ->
+                when (result) {
+                    is DataState.Loading -> {
+                        GroceryAppUtils.printLog("fetchAllProducts Loading")
+                    }
+
+                    is DataState.Success -> {
+                        GroceryAppUtils.printLog("fetchAllProducts Success: ${result.data}")
+                        _listOfProducts.postValue(
+                            result.data.categories
+                        )
+                    }
+
+                    is DataState.Error -> {
+                        GroceryAppUtils.printLog("fetchAllProducts Error ${result.exception.message}")
+                        _listOfProducts.postValue(
+                            emptyList()
+                        )
+                    }
+                }
+            }
+            _productsLoader.postValue(false)
+        }
+    }
+```
+
+Update Dish Count:
+```kt
+    private fun updateSelectedDishCount(
+        dishId: Int,
+        update: (Int) -> Int
+    ) {
+        val updatedCategories = _listOfProducts.value?.map { category ->
+            category.copy(
+                dishes = category.dishes.map { dish ->
+                    if (dish.id == dishId) {
+                        dish.copy(selectedCount = update(dish.selectedCount))
+                    } else dish
+                }
+            )
+        } ?: emptyList()
+
+        _listOfProducts.postValue(updatedCategories)
+    }
+```
+
+<i>Suggestions and improvements are welcome</i>
+
+### 3rd party libraries used:
+[Coil for image loading](https://coil-kt.github.io/coil/)
+
+### References:
+
+[State managemen in compose](https://developer.android.com/develop/ui/compose/state#managing-state)
+
+[Forced OkHttp caching with retrofit](https://amitshekhar.me/blog/caching-with-okhttp-interceptor-and-retrofit#:~:text=can%20create%20a-,ForceCacheInterceptor,-in%20addition%20to)
+
+[Image caching with Coil](https://medium.com/@kamal.lakhani56/coil-image-caching-jetpack-compose-354221918d70)
