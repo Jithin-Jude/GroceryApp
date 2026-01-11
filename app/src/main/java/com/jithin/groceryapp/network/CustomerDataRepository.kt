@@ -1,7 +1,7 @@
 package com.jithin.groceryapp.network
 
 import com.jithin.groceryapp.domain.DataState
-import com.jithin.groceryapp.model.CustomerModel
+import com.jithin.groceryapp.model.CustomerDataModel
 import kotlinx.coroutines.flow.Flow
 
 
@@ -18,12 +18,12 @@ import kotlinx.coroutines.flow.Flow
 interface CustomerDataRepository {
 
     suspend fun addOrUpdateCustomer(
-        customer: CustomerModel
+        customer: CustomerDataModel
     ): Flow<DataState<Unit>>
 
     suspend fun getCustomerById(
         customerId: String
-    ): Flow<DataState<CustomerModel>>
+    ): Flow<DataState<CustomerDataModel>>
 
     suspend fun updateCustomerFields(
         uid: String,

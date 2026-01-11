@@ -1,6 +1,6 @@
 package com.jithin.groceryapp.model
 
-data class CartSummary(
+data class CartSummaryDataModel(
     val totalDishes: Int,
     val totalItems: Int,
     val totalAmount: Double,

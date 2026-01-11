@@ -15,7 +15,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jithin.groceryapp.domain.DataState
-import com.jithin.groceryapp.model.CustomerModel
+import com.jithin.groceryapp.model.CustomerDataModel
 import com.jithin.groceryapp.network.CustomerDataRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -27,8 +27,8 @@ class CustomerDataViewModel @Inject constructor(
     private val authRepository: com.jithin.groceryapp.network.AuthRepository
 ) : ViewModel() {
 
-    private val _customer = MutableLiveData<CustomerModel?>()
-    val customer: LiveData<CustomerModel?> = _customer
+    private val _customer = MutableLiveData<CustomerDataModel?>()
+    val customer: LiveData<CustomerDataModel?> = _customer
 
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading

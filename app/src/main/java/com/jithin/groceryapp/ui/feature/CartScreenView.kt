@@ -1,25 +1,16 @@
 package com.jithin.groceryapp.ui.feature
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -42,8 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.jithin.groceryapp.MainActivity
-import com.jithin.groceryapp.model.CartSummary
+import com.jithin.groceryapp.model.CartSummaryDataModel
 import com.jithin.groceryapp.ui.components.CartItemView
 import com.jithin.groceryapp.ui.dialog.OrderSuccessDialog
 import com.jithin.groceryapp.ui.theme.AppBackground
@@ -84,7 +74,7 @@ fun CartScreenView(
 
     val cartItems by productViewModel.cartItems.observeAsState(emptyList())
     val summary by productViewModel.cartSummary.observeAsState(
-        CartSummary(0, 0, 0.0, currency = "")
+        CartSummaryDataModel(0, 0, 0.0, currency = "")
     )
 
     Scaffold(

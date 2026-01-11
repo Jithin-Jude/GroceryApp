@@ -12,9 +12,8 @@ package com.jithin.groceryapp.network
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.google.firebase.firestore.Source
 import com.jithin.groceryapp.domain.DataState
-import com.jithin.groceryapp.model.CustomerModel
+import com.jithin.groceryapp.model.CustomerDataModel
 import com.jithin.groceryapp.model.toNonNullMap
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -31,7 +30,7 @@ class CustomerDataRepositoryImpl @Inject constructor(
     private val customersCollection = firestore.collection(CUSTOMER_LIST)
 
     override suspend fun addOrUpdateCustomer(
-        customer: CustomerModel
+        customer: CustomerDataModel
     ): Flow<DataState<Unit>> = flow {
         try {
             emit(DataState.Loading)
@@ -67,7 +66,7 @@ class CustomerDataRepositoryImpl @Inject constructor(
 
     override suspend fun getCustomerById(
         customerId: String
-    ): Flow<DataState<CustomerModel>> = flow {
+    ): Flow<DataState<CustomerDataModel>> = flow {
         try {
             emit(DataState.Loading)
 
@@ -76,7 +75,7 @@ class CustomerDataRepositoryImpl @Inject constructor(
                 .get()
                 .await()
 
-            val customer = snapshot.toObject(CustomerModel::class.java)
+            val customer = snapshot.toObject(CustomerDataModel::class.java)
 
             if (customer != null) {
                 emit(DataState.Success(customer))

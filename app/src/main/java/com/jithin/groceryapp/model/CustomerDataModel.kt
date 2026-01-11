@@ -1,6 +1,6 @@
 package com.jithin.groceryapp.model
 
-data class CustomerModel(
+data class CustomerDataModel(
     val uid: String = "",
     val name: String? = null,
     val email: String? = null,
@@ -8,7 +8,7 @@ data class CustomerModel(
     val profilePictureUrl: String? = null
 )
 
-fun CustomerModel.toNonNullMap(): Map<String, Any> {
+fun CustomerDataModel.toNonNullMap(): Map<String, Any> {
     val map = mutableMapOf<String, Any>()
 
     uid?.let { map["uid"] = it }

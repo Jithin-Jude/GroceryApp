@@ -13,15 +13,15 @@ package com.jithin.groceryapp.domain
 import com.jithin.groceryapp.model.AddonModel
 import com.jithin.groceryapp.model.CategoryModel
 import com.jithin.groceryapp.model.DishModel
-import com.jithin.groceryapp.model.ProductModel
+import com.jithin.groceryapp.model.ProductDataModel
 import com.jithin.groceryapp.network.ProductResponse
 import javax.inject.Inject
 
 class ProductEntityNetworkMapper @Inject constructor() :
-    EntityMapper<ProductResponse, ProductModel> {
+    EntityMapper<ProductResponse, ProductDataModel> {
 
-    override fun mapFromEntity(entity: ProductResponse): ProductModel {
-        return ProductModel(
+    override fun mapFromEntity(entity: ProductResponse): ProductDataModel {
+        return ProductDataModel(
             categories = entity.categories.map { category ->
                 CategoryModel(
                     id = category.id,
@@ -51,7 +51,7 @@ class ProductEntityNetworkMapper @Inject constructor() :
         )
     }
 
-    override fun mapToEntity(model: ProductModel): ProductResponse {
+    override fun mapToEntity(model: ProductDataModel): ProductResponse {
         TODO("Not yet implemented")
     }
 }

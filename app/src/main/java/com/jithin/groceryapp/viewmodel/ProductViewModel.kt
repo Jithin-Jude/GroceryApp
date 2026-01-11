@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jithin.groceryapp.GroceryAppUtils.printLog
 import com.jithin.groceryapp.domain.DataState
-import com.jithin.groceryapp.model.CartSummary
+import com.jithin.groceryapp.model.CartSummaryDataModel
 import com.jithin.groceryapp.model.CategoryModel
 import com.jithin.groceryapp.model.DishModel
 import com.jithin.groceryapp.network.ProductRepository
@@ -59,13 +59,13 @@ class ProductViewModel @Inject constructor(
             }
         }
 
-    val cartSummary: LiveData<CartSummary> =
-        MediatorLiveData<CartSummary>().apply {
+    val cartSummary: LiveData<CartSummaryDataModel> =
+        MediatorLiveData<CartSummaryDataModel>().apply {
             addSource(_listOfProducts) { categories ->
                 val dishes = categories.flatMap { it.dishes }
                     .filter { it.selectedCount > 0 }
 
-                value = CartSummary(
+                value = CartSummaryDataModel(
                     totalDishes = dishes.size,
                     totalItems = dishes.sumOf { it.selectedCount },
                     totalAmount = dishes.sumOf { it.price * it.selectedCount },

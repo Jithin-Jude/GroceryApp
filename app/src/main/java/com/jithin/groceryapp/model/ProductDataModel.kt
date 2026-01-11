@@ -1,6 +1,6 @@
 package com.jithin.groceryapp.model
 
-data class ProductModel(
+data class ProductDataModel(
     val categories: List<CategoryModel>
 )
 

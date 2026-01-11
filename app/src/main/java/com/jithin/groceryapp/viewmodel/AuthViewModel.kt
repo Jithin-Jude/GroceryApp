@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.collect
 import androidx.lifecycle.*
 import com.jithin.groceryapp.domain.DataState
 import com.jithin.groceryapp.domain.UploadState
-import com.jithin.groceryapp.model.CustomerModel
+import com.jithin.groceryapp.model.CustomerDataModel
 import com.jithin.groceryapp.network.CustomerDataRepository
 import com.jithin.groceryapp.network.StorageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -192,7 +192,7 @@ class AuthViewModel @Inject constructor(
         email: String? = null,
         phoneNumber: String? = null
     ) {
-        val customer = CustomerModel(
+        val customer = CustomerDataModel(
             uid = uid,
             name = name,
             email = email,

@@ -11,9 +11,9 @@ package com.jithin.groceryapp.network
  */
 
 import com.jithin.groceryapp.domain.DataState
-import com.jithin.groceryapp.model.ProductModel
+import com.jithin.groceryapp.model.ProductDataModel
 import kotlinx.coroutines.flow.Flow
 
 interface ProductRepository {
-    suspend fun getAllProducts(): Flow<DataState<ProductModel>>
+    suspend fun getAllProducts(): Flow<DataState<ProductDataModel>>
 }
