@@ -3,6 +3,13 @@ A simple grocery/e-commerce demo application that allows customers to log in usi
 
 The application is developed using the MVVM architecture and utilizes Hilt and Dagger for dependency injection.
 
+### App Demo: [download APK here](https://drive.google.com/file/d/1DzXIe6ACeSb62D3gzsVOdjohm0F7UeWb/view?usp=sharing)
+![](https://github.com/Jithin-Jude/GroceryApp/blob/main/demo_images/gorcery_app_demo_jithin_k_jose.gif)
+
+### TEST PHONE NUMBER: +91 807 555 1292
+
+### DUMMY OTP: 123456
+
 Notes
 --
 ### Major components of appication:
@@ -22,8 +29,6 @@ Notes
 I fixed the issue by adding the correct ProGuard rules to keep Retrofit classes, Kotlin metadata, and coroutine continuation information.
 
 - App was not performing well in case of poor network (slow loading & data loss). Solved this issue by enabling OkHttp caching.
-### App Demo: [download APK here](https://drive.google.com/file/d/1DzXIe6ACeSb62D3gzsVOdjohm0F7UeWb/view?usp=sharing)
-![](https://github.com/Jithin-Jude/GroceryApp/blob/main/demo_images/gorcery_app_demo_jithin_k_jose.gif)
 
 ### Important Code snippets:
 Compose Navigation:
