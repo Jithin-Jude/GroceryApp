@@ -81,6 +81,7 @@ fun HomeScreenView(
                 userId = customer?.uid ?: "_",
                 profilePhotoUrl = customer?.profilePictureUrl,
                 onLogoutClick = {
+                    productViewModel.clearCart()
                     authViewModel.logout()
                     navController.navigate(Routes.LoginScreen.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
