@@ -55,6 +55,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -62,6 +63,7 @@ import coil.compose.AsyncImage
 import com.arpitkatiyarprojects.countrypicker.CountryPickerOutlinedTextField
 import com.arpitkatiyarprojects.countrypicker.models.CountryDetails
 import com.jithin.groceryapp.MainActivity
+import com.jithin.groceryapp.R
 import com.jithin.groceryapp.domain.UploadState
 import com.jithin.groceryapp.ui.theme.Typography
 import com.jithin.groceryapp.viewmodel.AuthViewModel
@@ -97,7 +99,8 @@ fun AskProfilePictureScreenView(
                     .windowInsetsPadding(WindowInsets.ime)
                     .height(52.dp)
             ) {
-                Text("Continue",
+                Text(
+                    stringResource(R.string.action_continue),
                     color = Color.White,
                     style = Typography.titleLarge,
                     )
@@ -114,7 +117,8 @@ fun AskProfilePictureScreenView(
 
             Spacer(Modifier.height(24.dp))
 
-            Text("Add a profile picture",
+            Text(
+                stringResource(R.string.add_a_profile_picture),
                 style = Typography.titleLarge,
                 )
 
@@ -152,7 +156,11 @@ fun AskProfilePictureScreenView(
             Spacer(Modifier.height(24.dp))
 
             if (uploadState is UploadState.Progress) {
-                Text("Uploading ${(uploadState as UploadState.Progress).percent}%")
+                Text(
+                    stringResource(
+                        R.string.label_uploading,
+                        (uploadState as UploadState.Progress).percent
+                    ))
             }
 
             Spacer(Modifier.weight(1f))

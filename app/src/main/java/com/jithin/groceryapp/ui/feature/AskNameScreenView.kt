@@ -50,11 +50,13 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.jithin.groceryapp.R
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 import com.jithin.groceryapp.ui.theme.Typography
 
@@ -86,7 +88,8 @@ fun AskNameScreenView(
                     .windowInsetsPadding(WindowInsets.ime)
                     .height(52.dp)
             ) {
-                Text("Continue",
+                Text(
+                    stringResource(R.string.action_continue),
                     color = Color.White,
                     style = Typography.titleLarge,
                     )
@@ -116,7 +119,7 @@ fun AskNameScreenView(
                         modifier = Modifier.padding(horizontal = 24.dp)
                     ) {
                         Text(
-                            text = "What should we call you?",
+                            text = stringResource(R.string.may_we_have_your_name),
                             style = Typography.titleLarge,
                         )
 
@@ -129,7 +132,7 @@ fun AskNameScreenView(
                                 .fillMaxWidth()
                                 .focusRequester(focusRequester),
                             singleLine = true,
-                            placeholder = { Text("Enter your name") },
+                            placeholder = { Text(stringResource(R.string.enter_your_name)) },
                             keyboardOptions = KeyboardOptions(
                                 keyboardType = KeyboardType.Text,
                                 capitalization = KeyboardCapitalization.Words,

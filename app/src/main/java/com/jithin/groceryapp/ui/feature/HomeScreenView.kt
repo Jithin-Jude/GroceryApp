@@ -37,11 +37,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.R
 import com.jithin.groceryapp.domain.Routes
 import com.jithin.groceryapp.ui.components.AppDrawerView
@@ -96,7 +96,7 @@ fun HomeScreenView(
         Scaffold (
             topBar = {
                 TopAppBar(
-                    title = { Text("Home") },
+                    title = { Text(stringResource(R.string.home)) },
                     navigationIcon = {
                         IconButton(
                             onClick = {

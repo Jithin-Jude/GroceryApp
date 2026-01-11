@@ -34,11 +34,13 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.arpitkatiyarprojects.countrypicker.CountryPickerOutlinedTextField
 import com.arpitkatiyarprojects.countrypicker.models.CountryDetails
 import com.jithin.groceryapp.GroceryAppUtils
+import com.jithin.groceryapp.R
 import com.jithin.groceryapp.ui.theme.Typography
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 
@@ -71,7 +73,7 @@ fun AskPhoneNumberScreenView(
         ) {
 
             Text(
-                text = "Enter your phone number",
+                text = stringResource(R.string.enter_your_phone_number),
                 style = MaterialTheme.typography.headlineSmall
             )
 
@@ -85,7 +87,7 @@ fun AskPhoneNumberScreenView(
                 onCountrySelected = { country ->
                     selectedCountry = country
                 },
-                label = { Text("Phone Number") },
+                label = { Text(stringResource(R.string.phone_number)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester)
@@ -111,7 +113,8 @@ fun AskPhoneNumberScreenView(
                     authViewModel.requestOTP(activity, fullPhone)
                 }
             ) {
-                Text("Request OTP",
+                Text(
+                    stringResource(R.string.request_otp),
                     color = Color.White,
                     style = Typography.titleLarge,
                 )

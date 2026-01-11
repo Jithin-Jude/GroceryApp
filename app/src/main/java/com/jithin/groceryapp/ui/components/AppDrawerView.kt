@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.jithin.groceryapp.R
@@ -85,7 +86,8 @@ fun AppDrawerView(
             .padding(horizontal = 24.dp),
         ) {
             NavigationDrawerItem(
-                label = { Text("Log out",
+                label = { Text(
+                    stringResource(R.string.log_out),
                     style = Typography.bodyMedium,
                     ) },
                 selected = false,

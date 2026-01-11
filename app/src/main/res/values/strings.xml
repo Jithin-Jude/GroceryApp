@@ -1,4 +1,24 @@
 <resources>
     <string name="app_name">Grocery App</string>
     <string name="no_dishes_found_please_retry">No dishes found!</string>
+    <string name="google">Google</string>
+    <string name="phone">Phone</string>
+    <string name="enter_your_phone_number">Enter your phone number</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="request_otp">Request OTP</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="enter_6_digit_otp">Enter 6-digit OTP</string>
+    <string name="verify">Verify</string>
+    <string name="action_continue">Continue</string>
+    <string name="may_we_have_your_name">May we have your name?</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="add_a_profile_picture">Add a profile picture</string>
+    <string name="label_uploading">Uploading %1$d%</string>
+    <string name="home">Home</string>
+    <string name="order_summary">Order Summary</string>
+    <string name="place_order">Place Order</string>
+    <string name="total_amount">Total Amount</string>
+    <string name="log_out">Log out</string>
+    <string name="customizations_available">Customizations Available</string>
+    <string name="order_successfully_placed">Order successfully placed</string>
 </resources>

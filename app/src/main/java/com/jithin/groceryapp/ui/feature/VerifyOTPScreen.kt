@@ -36,9 +36,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.jithin.groceryapp.R
 import com.jithin.groceryapp.ui.theme.Typography
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 
@@ -68,7 +70,7 @@ fun VerifyOTPScreen(
     ) {
 
         Text(
-            text = "Verify OTP",
+            text = stringResource(R.string.verify_otp),
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -82,7 +84,7 @@ fun VerifyOTPScreen(
                     otp = input
                 }
             },
-            label = { Text("Enter 6-digit OTP") },
+            label = { Text(stringResource(R.string.enter_6_digit_otp)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
@@ -118,7 +120,8 @@ fun VerifyOTPScreen(
                     modifier = Modifier.size(20.dp)
                 )
             } else {
-                Text("Verify",
+                Text(
+                    stringResource(R.string.verify),
                     color = Color.White,
                     style = Typography.titleLarge,
                     )

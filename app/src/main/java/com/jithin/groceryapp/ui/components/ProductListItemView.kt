@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -107,7 +108,8 @@ fun ProductListItemView(dish: DishModel,
 
             if(dish.customizationsAvailable){
                 Spacer(modifier = Modifier.height(16.dp))
-                Text("Customizations Available",
+                Text(
+                    stringResource(R.string.customizations_available),
                     color = Color.Red,
                     style = Typography.bodyMedium,
                     )

@@ -56,9 +56,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.jithin.groceryapp.GroceryAppUtils.roundTo2Decimals
+import com.jithin.groceryapp.R
 import com.jithin.groceryapp.domain.Routes
 import com.jithin.groceryapp.ui.theme.GADeepGreen
 import com.jithin.groceryapp.ui.theme.GAGreen
@@ -80,7 +82,7 @@ fun CartScreenView(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Order Summary") },
+                title = { Text(stringResource(R.string.order_summary)) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
@@ -120,7 +122,8 @@ fun CartScreenView(
                         }
                     }
                 ) {
-                    Text("Place Order",
+                    Text(
+                        stringResource(R.string.place_order),
                         color = Color.White,
                         style = Typography.titleLarge,
                         )
@@ -134,7 +137,6 @@ fun CartScreenView(
             OrderSuccessDialog()
         }
 
-        /* ✅ SCROLLING PARENT */
         Column(
             modifier = Modifier
                 .padding(paddingValues)
@@ -191,7 +193,7 @@ fun CartScreenView(
                     Row {
                         Text(
                             modifier = Modifier.padding(16.dp),
-                            text = "Total Amount",
+                            text = stringResource(R.string.total_amount),
                             style = Typography.titleLarge
                         )
                         Spacer(Modifier.weight(1f))

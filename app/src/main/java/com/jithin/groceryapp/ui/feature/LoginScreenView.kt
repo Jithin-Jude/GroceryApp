@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jithin.groceryapp.GroceryAppUtils.capitalizeFirstLetter
@@ -109,7 +110,7 @@ fun LoginScreenView(
 
                     // GOOGLE LOGIN
                     RoundedCornerButton(
-                        text = "Google",
+                        text = stringResource(R.string.google),
                         iconRes = R.drawable.ic_google,
                         backgroundColor = GABlue,
                         onClick = {
@@ -120,7 +121,7 @@ fun LoginScreenView(
 
                     // PHONE LOGIN
                     RoundedCornerButton(
-                        text = "Phone",
+                        text = stringResource(R.string.phone),
                         iconRes = R.drawable.ic_phone,
                         backgroundColor = GAGreen,
                         onClick = {
