@@ -117,7 +117,7 @@ fun ProductListItemView(dish: DishModel,
                 .height(100.dp),
             model = dish.imageUrl.networkImageLoaderWithCache(
                 context = context,
-                R.drawable.ic_placeholed_shopping_bag
+                R.drawable.ic_placeholder_dish
             ),
             contentScale = ContentScale.Crop,
             contentDescription = null,
