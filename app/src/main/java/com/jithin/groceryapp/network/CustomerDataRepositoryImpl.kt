@@ -12,6 +12,7 @@ package com.jithin.groceryapp.network
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.Source
 import com.jithin.groceryapp.domain.DataState
 import com.jithin.groceryapp.model.CustomerModel
 import com.jithin.groceryapp.model.toNonNullMap
@@ -72,7 +73,7 @@ class CustomerDataRepositoryImpl @Inject constructor(
 
             val snapshot = customersCollection
                 .document(customerId)
-                .get()
+                .get(Source.SERVER)
                 .await()
 
             val customer = snapshot.toObject(CustomerModel::class.java)

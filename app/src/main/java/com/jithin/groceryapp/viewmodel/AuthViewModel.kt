@@ -186,24 +186,22 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun saveCustomer(
+    private suspend fun saveCustomer(
         uid: String,
         name: String? = null,
         email: String? = null,
         phoneNumber: String? = null
     ) {
-        viewModelScope.launch {
-            val customer = CustomerModel(
-                uid = uid,
-                name = name,
-                email = email,
-                phoneNumber = phoneNumber
-            )
+        val customer = CustomerModel(
+            uid = uid,
+            name = name,
+            email = email,
+            phoneNumber = phoneNumber
+        )
 
-            customerDataRepository
-                .addOrUpdateCustomer(customer)
-                .collect()
-        }
+        customerDataRepository
+            .addOrUpdateCustomer(customer)
+            .collect()
     }
     fun updateCustomerName(name: String) {
         val uid = authRepository.getLoggedInUser()?.uid ?: return
