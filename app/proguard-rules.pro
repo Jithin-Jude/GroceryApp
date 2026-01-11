@@ -22,12 +22,8 @@
 
 -keepattributes Signature
 -keepattributes *Annotation*
--keepattributes InnerClasses
 
 -keep class com.jithin.groceryapp.data.remote.dto.** { *; }
--keep interface com.jithin.groceryapp.data.remote.api.** { *; }
--keep class com.jithin.groceryapp.domain.model.** { *; }
--keep class com.jithin.groceryapp.data.mapper.** { *; }
 
 ############################################
 # 1. KEEP KOTLIN METADATA (CRITICAL)
