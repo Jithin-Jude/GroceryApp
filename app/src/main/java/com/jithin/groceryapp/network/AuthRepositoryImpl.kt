@@ -41,7 +41,7 @@ class AuthRepositoryImpl @Inject constructor(
         try {
             emit(DataState.Loading)
 
-            // 1️⃣ Google ID option
+            // Google ID option
             val googleIdOption = GetGoogleIdOption.Builder()
                 .setServerClientId(
                     activity.getString(R.string.default_web_client_id)
@@ -49,12 +49,12 @@ class AuthRepositoryImpl @Inject constructor(
                 .setFilterByAuthorizedAccounts(false)
                 .build()
 
-            // 2️⃣ Credential request
+            // Credential request
             val request = GetCredentialRequest.Builder()
                 .addCredentialOption(googleIdOption)
                 .build()
 
-            // 3️⃣ Launch Credential Manager
+            // Launch Credential Manager
             val result = credentialManager.getCredential(
                 context = activity,
                 request = request
@@ -62,7 +62,7 @@ class AuthRepositoryImpl @Inject constructor(
 
             val credential = result.credential
 
-            // 4️⃣ Handle Google ID Token
+            // Handle Google ID Token
             if (
                 credential is CustomCredential &&
                 credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
@@ -70,7 +70,7 @@ class AuthRepositoryImpl @Inject constructor(
                 val googleIdTokenCredential =
                     GoogleIdTokenCredential.createFrom(credential.data)
 
-                // 5️⃣ Firebase authentication
+                // Firebase authentication
                 val firebaseCredential =
                     GoogleAuthProvider.getCredential(
                         googleIdTokenCredential.idToken,
