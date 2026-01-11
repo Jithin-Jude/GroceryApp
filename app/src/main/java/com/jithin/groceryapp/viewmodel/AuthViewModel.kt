@@ -201,7 +201,7 @@ class AuthViewModel @Inject constructor(
         )
 
         customerDataRepository
-            .addOrUpdateCustomer(customer)
+            .addCustomer(customer)
             .collect()
     }
     fun updateCustomerName(name: String) {

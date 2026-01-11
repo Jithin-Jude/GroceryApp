@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CustomerDataRepository {
 
-    suspend fun addOrUpdateCustomer(
+    suspend fun addCustomer(
         customer: CustomerDataModel
     ): Flow<DataState<Unit>>
 

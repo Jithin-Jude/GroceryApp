@@ -29,7 +29,7 @@ class CustomerDataRepositoryImpl @Inject constructor(
 
     private val customersCollection = firestore.collection(CUSTOMER_LIST)
 
-    override suspend fun addOrUpdateCustomer(
+    override suspend fun addCustomer(
         customer: CustomerDataModel
     ): Flow<DataState<Unit>> = flow {
         try {
