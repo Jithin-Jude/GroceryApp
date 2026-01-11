@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.collect
  */
 
 import androidx.lifecycle.*
+import com.jithin.groceryapp.domain.AuthUiState
 import com.jithin.groceryapp.domain.DataState
 import com.jithin.groceryapp.domain.UploadState
 import com.jithin.groceryapp.model.CustomerDataModel

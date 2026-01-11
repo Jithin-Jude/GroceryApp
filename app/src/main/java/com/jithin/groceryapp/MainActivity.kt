@@ -22,7 +22,7 @@ import com.jithin.groceryapp.ui.feature.HomeScreenView
 import com.jithin.groceryapp.ui.feature.LoginScreenView
 import com.jithin.groceryapp.ui.feature.VerifyOTPScreen
 import com.jithin.groceryapp.ui.theme.GroceryAppTheme
-import com.jithin.groceryapp.viewmodel.AuthUiState
+import com.jithin.groceryapp.domain.AuthUiState
 import com.jithin.groceryapp.viewmodel.AuthViewModel
 import com.jithin.groceryapp.viewmodel.CustomerDataViewModel
 import com.jithin.groceryapp.viewmodel.ProductViewModel
