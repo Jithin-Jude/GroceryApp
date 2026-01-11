@@ -3,7 +3,6 @@ package com.jithin.groceryapp.feature.product
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jithin.groceryapp.core.common.DataState
@@ -85,7 +84,7 @@ class ProductViewModel @Inject constructor(
                     }
 
                     is DataState.Error -> {
-                        GroceryAppUtils.printLog("fetchAllProducts Error")
+                        GroceryAppUtils.printLog("fetchAllProducts Error ${result.exception.message}")
                         _listOfProducts.postValue(
                             emptyList()
                         )

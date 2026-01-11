@@ -1,12 +1,15 @@
 package com.jithin.groceryapp.data.remote.dto
 
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 
+@Keep
 data class ProductResponse(
     @SerializedName("categories")
     val categories: List<Category>
 )
 
+@Keep
 data class Category(
     @SerializedName("id")
     val id: Int,
@@ -18,6 +21,7 @@ data class Category(
     val dishes: List<Dish>
 )
 
+@Keep
 data class Dish(
     @SerializedName("id")
     val id: Int,
@@ -51,6 +55,7 @@ data class Dish(
     val addons: List<Addon>
 )
 
+@Keep
 data class Addon(
     @SerializedName("id")
     val id: Int,

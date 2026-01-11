@@ -11,9 +11,12 @@ package com.jithin.groceryapp.data.repository
  */
 
 import com.jithin.groceryapp.core.common.DataState
+import com.jithin.groceryapp.core.utils.GroceryAppUtils
 import com.jithin.groceryapp.data.mapper.ProductEntityNetworkMapper
 import com.jithin.groceryapp.domain.repository.ProductRepository
 import com.jithin.groceryapp.data.remote.api.ProductApiService
+import com.jithin.groceryapp.domain.model.ProductDataModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -21,11 +24,14 @@ class ProductRepositoryImpl @Inject constructor(
     private val productApiService: ProductApiService,
     private val productEntityNetworkMapper: ProductEntityNetworkMapper
 ) : ProductRepository {
-    override suspend fun getAllProducts() = flow {
+    override suspend fun getAllProducts(): Flow<DataState<ProductDataModel>> = flow {
         try {
+            GroceryAppUtils.printLog("DEBUG_GR_API :=> before loading")
             emit(DataState.Loading)
+            GroceryAppUtils.printLog("DEBUG_GR_API :=> before call")
 
             val response = productApiService.getAllProducts()
+            GroceryAppUtils.printLog("DEBUG_GR_API :=> after call")
 
             if (response.isSuccessful) {
                 response.body()?.let { productResponse ->
@@ -41,6 +47,7 @@ class ProductRepositoryImpl @Inject constructor(
             }
 
         } catch (e: Exception) {
+            GroceryAppUtils.printLog("DEBUG_GR_API :=> api call Exception: ${e.message}")
             emit(DataState.Error(e))
         }
     }
