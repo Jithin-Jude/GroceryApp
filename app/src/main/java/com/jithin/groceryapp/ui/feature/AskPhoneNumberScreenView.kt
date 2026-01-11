@@ -42,12 +42,12 @@ import com.arpitkatiyarprojects.countrypicker.models.CountryDetails
 import com.jithin.groceryapp.GroceryAppUtils
 import com.jithin.groceryapp.R
 import com.jithin.groceryapp.ui.theme.Typography
-import com.jithin.groceryapp.viewmodel.AuthViewModel
+import com.jithin.groceryapp.viewmodel.OnboardingViewModel
 
 @Composable
 fun AskPhoneNumberScreenView(
     navController: NavHostController,
-    authViewModel: AuthViewModel,
+    onboardingViewModel: OnboardingViewModel,
 ) {
     val context = LocalContext.current
     val activity = context as Activity
@@ -55,7 +55,7 @@ fun AskPhoneNumberScreenView(
 
     var phoneNumber by remember { mutableStateOf("") }
     var selectedCountry by remember { mutableStateOf<CountryDetails?>(null) }
-    val otpRequestError by authViewModel.otpRequestError.observeAsState()
+    val otpRequestError by onboardingViewModel.otpRequestError.observeAsState()
 
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
@@ -110,7 +110,7 @@ fun AskPhoneNumberScreenView(
                 enabled = GroceryAppUtils.isValidPhoneNumber("${selectedCountry?.countryPhoneNumberCode ?: ""}$phoneNumber"),
                 onClick = {
                     val fullPhone = "${selectedCountry?.countryPhoneNumberCode ?: ""}$phoneNumber"
-                    authViewModel.requestOTP(activity, fullPhone)
+                    onboardingViewModel.requestOTP(activity, fullPhone)
                 }
             ) {
                 Text(

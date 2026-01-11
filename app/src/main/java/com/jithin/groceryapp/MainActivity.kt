@@ -23,7 +23,7 @@ import com.jithin.groceryapp.ui.feature.LoginScreenView
 import com.jithin.groceryapp.ui.feature.VerifyOTPScreen
 import com.jithin.groceryapp.ui.theme.GroceryAppTheme
 import com.jithin.groceryapp.domain.AuthUiState
-import com.jithin.groceryapp.viewmodel.AuthViewModel
+import com.jithin.groceryapp.viewmodel.OnboardingViewModel
 import com.jithin.groceryapp.viewmodel.CustomerDataViewModel
 import com.jithin.groceryapp.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +33,7 @@ import kotlin.getValue
 class MainActivity : ComponentActivity() {
 
     private val productViewModel: ProductViewModel by viewModels()
-    private val authViewModel: AuthViewModel by viewModels()
+    private val onboardingViewModel: OnboardingViewModel by viewModels()
     private val customerDataViewModel: CustomerDataViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
             GroceryAppTheme {
                 AppRoot(
                     productViewModel = productViewModel,
-                    authViewModel = authViewModel,
+                    onboardingViewModel = onboardingViewModel,
                     customerDataViewModel = customerDataViewModel,
                 )
             }
@@ -52,12 +52,12 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun AppRoot(
         productViewModel: ProductViewModel,
-        authViewModel: AuthViewModel,
+        onboardingViewModel: OnboardingViewModel,
         customerDataViewModel: CustomerDataViewModel,
     ) {
         val navController = rememberNavController()
 
-        val authState by authViewModel.authUiState.observeAsState(AuthUiState.Loading)
+        val authState by onboardingViewModel.authUiState.observeAsState(AuthUiState.Loading)
 
         when {
             authState is AuthUiState.Loading -> {
@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = startDestination,
                     productViewModel = productViewModel,
-                    authViewModel = authViewModel,
+                    onboardingViewModel = onboardingViewModel,
                     customerDataViewModel = customerDataViewModel,
                 )
             }
@@ -92,45 +92,45 @@ class MainActivity : ComponentActivity() {
         navController: NavHostController,
         startDestination: String,
         productViewModel: ProductViewModel,
-        authViewModel: AuthViewModel,
+        onboardingViewModel: OnboardingViewModel,
         customerDataViewModel: CustomerDataViewModel,
     ) {
         NavHost(navController, startDestination = startDestination) {
             composable(Routes.LoginScreen.route) {
                 LoginScreenView(
                     navController,
-                    authViewModel,
+                    onboardingViewModel,
                 )
             }
             composable(Routes.AskPhoneNumberScreen.route) {
                 AskPhoneNumberScreenView(
                     navController,
-                    authViewModel,
+                    onboardingViewModel,
                 )
             }
             composable(Routes.VerifyOtpScreen.route) {
                 VerifyOTPScreen(
                     navController,
-                    authViewModel,
+                    onboardingViewModel,
                 )
             }
             composable(Routes.AskNameScreen.route) {
                 AskNameScreenView(
                     navController,
-                    authViewModel,
+                    onboardingViewModel,
                 )
             }
             composable(Routes.AskProfilePictureScreen.route) {
                 AskProfilePictureScreenView(
                     navController,
-                    authViewModel,
+                    onboardingViewModel,
                 )
             }
             composable(Routes.HomeScreen.route) {
                 HomeScreenView(
                     navController = navController,
                     productViewModel = productViewModel,
-                    authViewModel = authViewModel,
+                    onboardingViewModel = onboardingViewModel,
                     customerDataViewModel = customerDataViewModel,
                 )
             }

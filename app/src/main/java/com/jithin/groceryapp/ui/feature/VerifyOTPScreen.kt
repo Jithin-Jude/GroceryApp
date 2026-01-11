@@ -42,19 +42,19 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jithin.groceryapp.R
 import com.jithin.groceryapp.ui.theme.Typography
-import com.jithin.groceryapp.viewmodel.AuthViewModel
+import com.jithin.groceryapp.viewmodel.OnboardingViewModel
 
 @Composable
 fun VerifyOTPScreen(
     navController: NavHostController,
-    authViewModel: AuthViewModel,
+    onboardingViewModel: OnboardingViewModel,
 ) {
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
 
-    val otpVerificationInProgress by authViewModel.otpVerificationInProgress.observeAsState(false)
-    val otpVerificationError by authViewModel.otpVerificationError.observeAsState()
+    val otpVerificationInProgress by onboardingViewModel.otpVerificationInProgress.observeAsState(false)
+    val otpVerificationError by onboardingViewModel.otpVerificationError.observeAsState()
 
     var otp by remember { mutableStateOf("") }
 
@@ -109,7 +109,7 @@ fun VerifyOTPScreen(
         Button(
             onClick = {
                 keyboardController?.hide()
-                authViewModel.verifyOTP(otp)
+                onboardingViewModel.verifyOTP(otp)
                       },
             enabled = otp.length == 6 && !otpVerificationInProgress,
             modifier = Modifier.fillMaxWidth()

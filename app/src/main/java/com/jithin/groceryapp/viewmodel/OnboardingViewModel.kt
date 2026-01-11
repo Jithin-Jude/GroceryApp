@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.collect
 
 /*
  * --------------------------------------------------------------------------
- * File: AuthViewModel.dart
+ * File: OnboardingViewModel.dart
  * Developer: <Jithin/Jude>
  * Created: 09/01/26
  * Copyright © 2026. All rights reserved.
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(
+class OnboardingViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val customerDataRepository: CustomerDataRepository,
     private val storageRepository: StorageRepository,

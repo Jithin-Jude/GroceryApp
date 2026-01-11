@@ -34,7 +34,7 @@ import com.jithin.groceryapp.ui.theme.AppBackground
 import com.jithin.groceryapp.ui.theme.GABlue
 import com.jithin.groceryapp.ui.theme.GAGreen
 import com.jithin.groceryapp.domain.AuthUiState
-import com.jithin.groceryapp.viewmodel.AuthViewModel
+import com.jithin.groceryapp.viewmodel.OnboardingViewModel
 
 
 /*
@@ -49,14 +49,14 @@ import com.jithin.groceryapp.viewmodel.AuthViewModel
 @Composable
 fun LoginScreenView(
     navController: NavHostController,
-    authViewModel: AuthViewModel,
+    onboardingViewModel: OnboardingViewModel,
 ) {
     val context = LocalContext.current
     val activity = context as Activity
 
 
     val snackbarHostState = remember { SnackbarHostState() }
-    val authState by authViewModel.authUiState.observeAsState(AuthUiState.Loading)
+    val authState by onboardingViewModel.authUiState.observeAsState(AuthUiState.Loading)
 
     LaunchedEffect(authState) {
         if (authState is AuthUiState.AuthError) {
@@ -111,7 +111,7 @@ fun LoginScreenView(
                         iconRes = R.drawable.ic_google,
                         backgroundColor = GABlue,
                         onClick = {
-                            authViewModel.loginWithGoogle(activity)
+                            onboardingViewModel.loginWithGoogle(activity)
                         }
                     )
 

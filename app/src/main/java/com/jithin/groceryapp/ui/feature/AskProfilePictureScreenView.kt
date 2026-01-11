@@ -10,16 +10,13 @@ package com.jithin.groceryapp.ui.feature
  * --------------------------------------------------------------------------
  */
 
-import android.app.Activity
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,21 +25,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -54,26 +45,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
-import com.arpitkatiyarprojects.countrypicker.CountryPickerOutlinedTextField
-import com.arpitkatiyarprojects.countrypicker.models.CountryDetails
-import com.jithin.groceryapp.MainActivity
 import com.jithin.groceryapp.R
 import com.jithin.groceryapp.domain.UploadState
 import com.jithin.groceryapp.ui.theme.Typography
-import com.jithin.groceryapp.viewmodel.AuthViewModel
+import com.jithin.groceryapp.viewmodel.OnboardingViewModel
 
 @Composable
 fun AskProfilePictureScreenView(
     navController: NavHostController,
-    authViewModel: AuthViewModel,
+    onboardingViewModel: OnboardingViewModel,
 ) {
-    val uploadState by authViewModel.uploadState.observeAsState(UploadState.Idle)
+    val uploadState by onboardingViewModel.uploadState.observeAsState(UploadState.Idle)
     var imageUri by remember { mutableStateOf<Uri?>(null) }
 
     val launcher = rememberLauncherForActivityResult(
@@ -88,7 +74,7 @@ fun AskProfilePictureScreenView(
             Button(
                 onClick = {
                     imageUri?.let {
-                        authViewModel.uploadProfilePicture(it)
+                        onboardingViewModel.uploadProfilePicture(it)
                     }
                 },
                 enabled = imageUri != null && uploadState !is UploadState.Uploading,

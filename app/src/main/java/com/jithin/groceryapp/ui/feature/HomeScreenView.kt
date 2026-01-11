@@ -50,7 +50,7 @@ import com.jithin.groceryapp.ui.components.EmptyScreenView
 import com.jithin.groceryapp.ui.components.LoadingView
 import com.jithin.groceryapp.ui.theme.AppBackground
 import com.jithin.groceryapp.viewmodel.ProductViewModel
-import com.jithin.groceryapp.viewmodel.AuthViewModel
+import com.jithin.groceryapp.viewmodel.OnboardingViewModel
 import com.jithin.groceryapp.viewmodel.CustomerDataViewModel
 import kotlinx.coroutines.launch
 
@@ -59,7 +59,7 @@ import kotlinx.coroutines.launch
 fun HomeScreenView(
     navController: NavHostController,
     productViewModel: ProductViewModel,
-    authViewModel: AuthViewModel,
+    onboardingViewModel: OnboardingViewModel,
     customerDataViewModel: CustomerDataViewModel,
 ) {
     val listOfProducts by productViewModel.listOfProducts.observeAsState()
@@ -82,7 +82,7 @@ fun HomeScreenView(
                 profilePhotoUrl = customer?.profilePictureUrl,
                 onLogoutClick = {
                     productViewModel.clearCart()
-                    authViewModel.logout()
+                    onboardingViewModel.logout()
                     navController.navigate(Routes.LoginScreen.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
                             inclusive = true
