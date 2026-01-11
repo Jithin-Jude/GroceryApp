@@ -138,7 +138,7 @@ Update Dish Count:
 
 [Google Credential Manager](https://firebase.google.com/docs/auth/android/google-signin)
 
-[State managemen in compose](https://developer.android.com/develop/ui/compose/state#managing-state)
+[State management in compose](https://developer.android.com/develop/ui/compose/state#managing-state)
 
 [Forced OkHttp caching with retrofit](https://amitshekhar.me/blog/caching-with-okhttp-interceptor-and-retrofit#:~:text=can%20create%20a-,ForceCacheInterceptor,-in%20addition%20to)
 
