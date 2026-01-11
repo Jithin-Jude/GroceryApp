@@ -29,7 +29,7 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
     @Singleton
     @Binds
-    abstract fun bindsFeedRepository(impl: ProductRepositoryImpl): ProductRepository
+    abstract fun bindsProductRepository(impl: ProductRepositoryImpl): ProductRepository
 
     @Singleton
     @Binds
