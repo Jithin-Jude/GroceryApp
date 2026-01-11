@@ -25,13 +25,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -43,10 +47,18 @@ fun VerifyOTPScreen(
     navController: NavHostController,
     authViewModel: AuthViewModel,
 ) {
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+
     val otpVerificationInProgress by authViewModel.otpVerificationInProgress.observeAsState(false)
     val otpVerificationError by authViewModel.otpVerificationError.observeAsState()
 
     var otp by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 
     Column(
         modifier = Modifier
@@ -75,7 +87,9 @@ fun VerifyOTPScreen(
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number
             ),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester),
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -91,7 +105,10 @@ fun VerifyOTPScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         Button(
-            onClick = { authViewModel.verifyOTP(otp) },
+            onClick = {
+                keyboardController?.hide()
+                authViewModel.verifyOTP(otp)
+                      },
             enabled = otp.length == 6 && !otpVerificationInProgress,
             modifier = Modifier.fillMaxWidth()
         ) {
