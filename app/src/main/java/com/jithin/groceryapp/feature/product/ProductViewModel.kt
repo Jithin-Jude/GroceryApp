@@ -20,7 +20,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ProductViewModel @Inject constructor(
     private val repository: ProductRepository,
-    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _productsLoader = MutableLiveData<Boolean>()
