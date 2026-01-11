@@ -73,7 +73,7 @@ class CustomerDataRepositoryImpl @Inject constructor(
 
             val snapshot = customersCollection
                 .document(customerId)
-                .get(Source.SERVER)
+                .get()
                 .await()
 
             val customer = snapshot.toObject(CustomerModel::class.java)
